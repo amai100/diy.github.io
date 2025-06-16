@@ -298,8 +298,49 @@
     }
 
     // 保存数据到localStorage
-    function saveData() {
-      localStorage.setItem('interactSpaceData', JSON.stringify(posts));
+    // 替换原来的saveData函数
+    async function saveData() {
+      try {
+        const response = await axios.put(
+          `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`,
+          {
+            message: 'Update posts data',
+            content: btoa(JSON.stringify(posts)),
+            sha: localStorage.getItem('dataSha') || null
+          },
+          {
+            headers: {
+              Authorization: `token ${TOKEN}`,
+              Accept: 'application/vnd.github.v3+json'
+            }
+          }
+        );
+        localStorage.setItem('dataSha', response.data.content.sha);
+      } catch (error) {
+        console.error('保存数据失败:', error);
+        alert('保存数据失败，请稍后重试');
+      }
+    }
+    
+    // 替换原来的loadData函数
+    async function loadData() {
+      try {
+        const response = await axios.get(
+          `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`,
+          {
+            headers: {
+              Accept: 'application/vnd.github.v3+json'
+            }
+          }
+        );
+        posts = JSON.parse(atob(response.data.content));
+        localStorage.setItem('dataSha', response.data.sha);
+      } catch (error) {
+        console.error('加载数据失败:', error);
+        // 保持原有本地数据
+        const savedData = localStorage.getItem('interactSpaceData');
+        if (savedData) posts = JSON.parse(savedData);
+      }
     }
 
     // 加载用户设置
@@ -317,20 +358,7 @@
 
     // 检查用户名是否唯一
     function isUsernameUnique(username) {
-      // 官方用户名唯一性检查
-      if (username === OFFICIAL_USER) {
-        // 检查是否已有用户使用该官方用户名
-        const officialUserExists = posts.some(post => 
-          post.user.name === OFFICIAL_USER && post.user.isOfficial
-        );
-        
-        // 如果已有官方用户，且不是当前用户，则不允许设置
-        if (officialUserExists && username !== userSettings.userId) {
-          return false;
-        }
-      }
-      
-      // 检查是否与其他用户冲突
+      // 移除官方用户名唯一性检查部分
       return posts.every(post => post.user.name !== username) || 
              username === userSettings.userId;
     }
@@ -738,6 +766,7 @@
       document.getElementById('postContent').value = '';
       document.getElementById('imagePreview').innerHTML = '';
       document.getElementById('imagePreview').classList.add('hidden');
+      document.getElementById('imagePreview').classList.add('hidden');
       document.getElementById('charCount').textContent = '0/500';
     }
 
@@ -820,3 +849,12 @@
   </script>
 </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+  <script>
+    const REPO_OWNER = 'amai100';
+    const REPO_NAME = 'diy.github.io';
+    const DATA_FILE = 'data/posts.json';
+    const TOKEN = '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'; // 替换为你的令牌
+  </script>
+</head>
