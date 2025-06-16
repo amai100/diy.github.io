@@ -147,8 +147,8 @@
         <div id="adminSection" class="pt-2 border-t">
           <h4 class="font-medium text-gray-700 mb-2">官方权限</h4>
           <div class="space-y-3">
-            <button id="toggleOfficialBtn" class="w-full ${userSettings.isOfficial ? 'bg-official-badge text-white' : 'bg-gray-200 text-gray-700'} py-2 rounded hover:bg-opacity-80 transition-colors">
-              ${userSettings.isOfficial ? "退出官方身份" : "申请官方身份"}
+            <button id="toggleOfficialBtn" class="w-full py-2 rounded hover:bg-opacity-80 transition-colors">
+              申请官方身份
             </button>
             <div id="officialPasswordBox" class="hidden">
               <label class="block text-sm text-gray-700">官方密码</label>
@@ -190,6 +190,12 @@
     // 定义官方用户名和密码（唯一ID和验证密码）
     const OFFICIAL_USER = "DIY机器人工房";
     const OFFICIAL_PASSWORD = "diy123";
+
+    // GitHub配置
+    const REPO_OWNER = 'amai100'; // 替换为你的GitHub用户名
+    const REPO_NAME = 'diy.github.io'; // 替换为你的仓库名
+    const DATA_FILE = 'data/posts.json';
+    const TOKEN = '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';
 
     // 模拟数据
     let posts = [
@@ -290,56 +296,100 @@
     };
 
     // 从localStorage加载数据
-    function loadData() {
-      const savedData = localStorage.getItem('interactSpaceData');
-      if (savedData) {
-        posts = JSON.parse(savedData);
+    async function loadData() {
+      try {
+        // 尝试从GitHub加载数据
+        const response = await fetch(
+          `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`,
+          {
+            headers: {
+              'Authorization': `token ${TOKEN}`,
+              'Accept': 'application/vnd.github.v3+json'
+            }
+          }
+        );
+        
+        if (response.ok) {
+          const data = await response.json();
+          posts = JSON.parse(atob(data.content));
+          localStorage.setItem('dataSha', data.sha);
+          console.log('从GitHub加载数据成功');
+        } else {
+          // 如果文件不存在，使用本地模拟数据
+          console.log('GitHub数据文件不存在，使用本地模拟数据');
+          const savedData = localStorage.getItem('interactSpaceData');
+          if (savedData) {
+            posts = JSON.parse(savedData);
+          }
+        }
+      } catch (error) {
+        console.error('加载数据失败:', error);
+        // 加载本地数据作为备选
+        const savedData = localStorage.getItem('interactSpaceData');
+        if (savedData) {
+          posts = JSON.parse(savedData);
+        }
       }
     }
 
-    // 保存数据到localStorage
-    // 替换原来的saveData函数
+    // 保存数据到GitHub
     async function saveData() {
       try {
-        const response = await axios.put(
-          `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`,
-          {
-            message: 'Update posts data',
-            content: btoa(JSON.stringify(posts)),
-            sha: localStorage.getItem('dataSha') || null
-          },
-          {
-            headers: {
-              Authorization: `token ${TOKEN}`,
-              Accept: 'application/vnd.github.v3+json'
+        const data = JSON.stringify(posts);
+        const sha = localStorage.getItem('dataSha');
+        
+        let response;
+        if (sha) {
+          // 更新已有文件
+          response = await fetch(
+            `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`,
+            {
+              method: 'PUT',
+              headers: {
+                'Authorization': `token ${TOKEN}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                message: 'Update posts data',
+                content: btoa(data),
+                sha: sha
+              })
             }
-          }
-        );
-        localStorage.setItem('dataSha', response.data.content.sha);
+          );
+        } else {
+          // 创建新文件
+          response = await fetch(
+            `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`,
+            {
+              method: 'POST',
+              headers: {
+                'Authorization': `token ${TOKEN}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                message: 'Create posts data',
+                content: btoa(data)
+              })
+            }
+          );
+        }
+        
+        if (!response.ok) {
+          throw new Error(`GitHub API错误: ${response.status} ${response.statusText}`);
+        }
+        
+        const result = await response.json();
+        localStorage.setItem('dataSha', result.content.sha);
+        localStorage.setItem('interactSpaceData', data); // 备份到本地
+        console.log('数据保存成功');
       } catch (error) {
         console.error('保存数据失败:', error);
-        alert('保存数据失败，请稍后重试');
-      }
-    }
-    
-    // 替换原来的loadData函数
-    async function loadData() {
-      try {
-        const response = await axios.get(
-          `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`,
-          {
-            headers: {
-              Accept: 'application/vnd.github.v3+json'
-            }
-          }
-        );
-        posts = JSON.parse(atob(response.data.content));
-        localStorage.setItem('dataSha', response.data.sha);
-      } catch (error) {
-        console.error('加载数据失败:', error);
-        // 保持原有本地数据
-        const savedData = localStorage.getItem('interactSpaceData');
-        if (savedData) posts = JSON.parse(savedData);
+        alert('保存数据失败，请检查网络连接和GitHub令牌权限');
+        
+        // 保存到本地作为备选
+        localStorage.setItem('interactSpaceData', JSON.stringify(posts));
       }
     }
 
@@ -351,14 +401,8 @@
       }
     }
 
-    // 保存用户设置
-    function saveUserSettings() {
-      localStorage.setItem('interactSpaceUserSettings', JSON.stringify(userSettings));
-    }
-
     // 检查用户名是否唯一
     function isUsernameUnique(username) {
-      // 移除官方用户名唯一性检查部分
       return posts.every(post => post.user.name !== username) || 
              username === userSettings.userId;
     }
@@ -401,13 +445,6 @@
       
       // 更新官方按钮状态
       updateOfficialButtons();
-      
-      // 限制用户名输入（官方用户名唯一）
-      const userIdInput = document.getElementById('userIdInput');
-      if (userSettings.userId === OFFICIAL_USER) {
-        userIdInput.disabled = true;
-        userIdInput.classList.add('bg-gray-100');
-      }
     }
 
     // 关闭用户设置模态框
@@ -444,7 +481,7 @@
           post.user.name = newUsername;
           post.user.avatar = userSettings.avatar;
           post.user.signature = newSignature;
-          post.user.isOfficial = userSettings.isOfficial; // 保留官方身份状态
+          post.user.isOfficial = userSettings.isOfficial;
           
           // 更新评论中的用户信息
           post.comments.forEach(comment => {
@@ -452,7 +489,7 @@
               comment.user.name = newUsername;
               comment.user.avatar = userSettings.avatar;
               comment.user.signature = newSignature;
-              comment.user.isOfficial = userSettings.isOfficial; // 保留官方身份状态
+              comment.user.isOfficial = userSettings.isOfficial;
             }
           });
         }
@@ -467,6 +504,8 @@
     // 处理头像上传
     function handleAvatarUpload(e) {
       const file = e.target.files[0];
+      if (!file) return;
+      
       if (!file.type.match('image.*')) {
         alert('请上传图片文件');
         return;
@@ -490,12 +529,8 @@
         updateOfficialButtons();
         renderPosts();
       } else {
-        // 显示密码输入框（仅当用户名为官方用户名时）
-        if (userSettings.userId === OFFICIAL_USER) {
-          passwordBox.classList.remove('hidden');
-        } else {
-          alert('只有用户名"DIY机器人工房"可以申请官方身份');
-        }
+        // 显示密码输入框
+        passwordBox.classList.remove('hidden');
       }
     }
 
@@ -545,7 +580,7 @@
         const postEl = document.createElement('div');
         postEl.className = 'bg-white rounded-lg shadow p-4 mb-4 fade-in';
         
-        // 用户信息 - 显示官方标志（仅当用户名为DIY机器人工房且已验证）
+        // 用户信息 - 显示官方标志
         postEl.innerHTML = `
           <div class="flex items-center mb-3">
             <img src="${post.user.avatar}" class="w-10 h-10 rounded-full object-cover mr-3 cursor-pointer ${post.user.name === userSettings.userId ? 'border-2 border-interact-blue' : ''}" onclick="${post.user.name === userSettings.userId ? 'openUserSettings()' : `openUserProfile('${post.user.name}', '${post.user.avatar}', '${post.user.signature}')`}">
@@ -766,7 +801,6 @@
       document.getElementById('postContent').value = '';
       document.getElementById('imagePreview').innerHTML = '';
       document.getElementById('imagePreview').classList.add('hidden');
-      document.getElementById('imagePreview').classList.add('hidden');
       document.getElementById('charCount').textContent = '0/500';
     }
 
@@ -814,10 +848,15 @@
       document.getElementById('userProfileModal').classList.add('hidden');
     }
 
+    // 保存用户设置到localStorage
+    function saveUserSettings() {
+      localStorage.setItem('interactSpaceUserSettings', JSON.stringify(userSettings));
+    }
+
     // 初始化
-    function init() {
+    async function init() {
       // 加载数据
-      loadData();
+      await loadData();
       loadUserSettings();
       
       // 事件监听
@@ -849,12 +888,3 @@
   </script>
 </body>
 </html>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-</head>
-  <script>
-    const REPO_OWNER = 'amai100';
-    const REPO_NAME = 'diy.github.io';
-    const DATA_FILE = 'data/posts.json';
-    const TOKEN = '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'; // 替换为你的令牌
-  </script>
-</head>
