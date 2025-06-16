@@ -1,0 +1,68 @@
+body {
+    overflow-y: scroll;
+}
+
+.navbar-brand {
+    padding: 5px;
+    margin-right: 50px;
+}
+
+.navbar-nav li {
+    margin: 0 5px;
+    font-size: medium;
+}
+
+.navbar-nav li:hover {
+    background-color: rgb(230, 230, 230);
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+p {
+    font-size: medium;
+}
+
+.img-bilibili {
+    text-align: center;
+}
+
+.text-p p {
+    margin: 25px 0;
+}
+
+.text-go {
+    text-align: right;
+}
+
+.btn-danger {
+    margin: 0 5px;
+}
+
+footer {
+    background-color: purple;
+    color: white;
+    padding: 30px;
+}
+
+.red {
+    background-color: red;
+}
+
+.green {
+    background-color: green;
+}
+
+.footer-text-a {
+    color: white;
+}
+
+.footer-text-a:hover {
+    color: white;
+}
+
+.footer-text-a:visited {
+    color: white;
+}

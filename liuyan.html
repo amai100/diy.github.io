@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>留言互动空间</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'interact-blue': '#4A90E2',
+            'interact-red': '#F56C6C',
+            'official-badge': '#2563eb', // 官方标志颜色：蓝色
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .fade-in {
+      animation: fadeIn 0.5s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .zoom-in {
+      transition: transform 0.2s;
+    }
+    .zoom-in:hover {
+      transform: scale(1.05);
+    }
+    .post-image {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .post-image:hover {
+      transform: scale(1.02);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .modal {
+      transition: opacity 0.3s ease;
+    }
+    .content-collapsed {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .user-card {
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      border-radius: 0.5rem;
+    }
+    .official-badge {
+      background-color: #2563eb;
+      color: white;
+      font-size: 10px;
+      padding: 1px 4px;
+      border-radius: 3px;
+      margin-left: 5px;
+      display: flex;
+      align-items: center;
+    }
+    .official-badge i {
+      margin-right: 2px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="max-w-2xl mx-auto p-4">
+    <!-- 顶部导航栏 -->
+    <div class="bg-white rounded-lg shadow p-3 mb-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold">留言互动空间</h1>
+      <button onclick="openUserSettings()" class="text-gray-500 hover:text-interact-blue">
+        <i class="fas fa-user-circle text-xl"></i>
+      </button>
+    </div>
+
+    <!-- 发布区 -->
+    <div class="bg-white rounded-lg shadow p-4 mb-4">
+      <textarea id="postContent" placeholder="分享你的想法..." maxlength="500" 
+        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus-interact-blue"></textarea>
+      <div class="flex items-center justify-between mt-3">
+        <div class="flex space-x-2">
+          <label class="cursor-pointer text-gray-500 hover:text-interact-blue zoom-in">
+            <i class="fas fa-image text-xl"></i>
+            <input type="file" id="imageUpload" accept="image/jpeg,image/png,image/gif" multiple class="hidden">
+          </label>
+        </div>
+        <div class="text-sm text-gray-500" id="charCount">0/500</div>
+      </div>
+      <div id="imagePreview" class="grid grid-cols-3 gap-2 mt-3 hidden"></div>
+      <button id="postButton" class="mt-3 bg-interact-blue text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition zoom-in">
+        发布留言
+      </button>
+    </div>
+
+    <!-- 留言列表 -->
+    <div id="postsContainer"></div>
+  </div>
+
+  <!-- 图片预览模态框 -->
+  <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+    <div class="relative max-w-4xl w-full">
+      <button id="closeModal" class="absolute top-4 right-4 text-white text-2xl hover:text-interact-red">×</button>
+      <img id="modalImage" class="max-h-screen mx-auto">
+      <div class="flex justify-between absolute top-1/2 w-full px-4">
+        <button id="prevImage" class="text-white text-2xl bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-interact-blue">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button id="nextImage" class="text-white text-2xl bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-interact-blue">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 用户设置模态框 -->
+  <div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold">用户设置</h3>
+        <button onclick="closeUserSettings()" class="text-gray-500 hover:text-interact-red text-2xl">×</button>
+      </div>
+      <div class="space-y-4">
+        <div class="flex items-center space-x-4">
+          <div>
+            <img id="avatarPreview" src="" class="w-16 h-16 rounded-full object-cover">
+            <label class="block mt-2 text-sm text-interact-blue cursor-pointer">
+              <i class="fas fa-camera mr-1"></i>更换头像
+              <input type="file" id="avatarUpload" accept="image/jpeg,image/png" class="hidden" onchange="handleAvatarUpload(event)">
+            </label>
+          </div>
+          <div class="flex-1">
+            <label class="block text-sm font-medium text-gray-700">昵称</label>
+            <input type="text" id="userIdInput" class="w-full p-2 border rounded mt-1">
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">个性签名</label>
+          <textarea id="signatureInput" class="w-full p-2 border rounded mt-1 h-20" placeholder="输入你的个性签名..."></textarea>
+        </div>
+        <div id="adminSection" class="pt-2 border-t">
+          <h4 class="font-medium text-gray-700 mb-2">官方权限</h4>
+          <div class="space-y-3">
+            <button id="toggleOfficialBtn" class="w-full ${userSettings.isOfficial ? 'bg-official-badge text-white' : 'bg-gray-200 text-gray-700'} py-2 rounded hover:bg-opacity-80 transition-colors">
+              ${userSettings.isOfficial ? "退出官方身份" : "申请官方身份"}
+            </button>
+            <div id="officialPasswordBox" class="hidden">
+              <label class="block text-sm text-gray-700">官方密码</label>
+              <input type="password" id="officialPassword" class="w-full p-2 border rounded mt-1" placeholder="输入官方密码">
+              <button id="verifyOfficialBtn" class="w-full bg-interact-blue text-white py-2 rounded mt-2 hover:bg-blue-600 transition-colors">
+                验证
+              </button>
+            </div>
+          </div>
+        </div>
+        <button id="saveSettingsBtn" class="w-full bg-interact-blue text-white py-2 rounded hover:bg-blue-600 transition-colors">
+          保存设置
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 查看他人资料模态框 -->
+  <div id="userProfileModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md user-card">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold" id="profileUserName">用户资料</h3>
+        <button onclick="closeUserProfile()" class="text-gray-500 hover:text-interact-red text-2xl">×</button>
+      </div>
+      <div class="flex items-center space-x-4 mb-6">
+        <img id="profileAvatar" src="" class="w-20 h-20 rounded-full object-cover">
+        <div>
+          <h4 class="text-lg font-semibold" id="profileName"></h4>
+          <p class="text-gray-500" id="profileSignature"></p>
+        </div>
+      </div>
+      <div class="border-t pt-4">
+        <p class="text-sm text-gray-600">个性签名: <span id="signatureDisplay"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 定义官方用户名和密码（唯一ID和验证密码）
+    const OFFICIAL_USER = "DIY机器人工房";
+    const OFFICIAL_PASSWORD = "diy123";
+
+    // 模拟数据
+    let posts = [
+      {
+        id: 1,
+        user: { 
+          name: "小明", 
+          avatar: "https://picsum.photos/200/200?random=1",
+          signature: "热爱生活，热爱艺术",
+          isOfficial: false
+        },
+        time: "30分钟前",
+        content: "今天来参观留言互动空间，感觉很棒！",
+        images: [
+          "https://picsum.photos/600/400?random=101",
+          "https://picsum.photos/600/400?random=102"
+        ],
+        likes: 12,
+        isLiked: false,
+        comments: [
+          { 
+            user: { 
+              name: "小红", 
+              avatar: "https://picsum.photos/200/200?random=2",
+              signature: "喜欢旅行和摄影",
+              isOfficial: false
+            }, 
+            content: "我也很喜欢这个互动空间！", 
+            time: "25分钟前" 
+          }
+        ],
+        views: 56
+      },
+      {
+        id: 2,
+        user: { 
+          name: "小刚", 
+          avatar: "https://picsum.photos/200/200?random=3",
+          signature: "周末活动爱好者",
+          isOfficial: false
+        },
+        time: "2小时前",
+        content: "周末参加了户外互动活动，很开心！",
+        images: ["https://picsum.photos/600/400?random=201"],
+        likes: 8,
+        isLiked: true,
+        comments: [],
+        views: 34
+      },
+      {
+        id: 3,
+        user: { 
+          name: "DIY机器人工房", // 官方账号
+          avatar: "https://picsum.photos/200/200?random=admin",
+          signature: "留言互动空间官方账号",
+          isOfficial: true
+        },
+        time: "1天前",
+        content: "欢迎大家来到留言互动空间！",
+        images: [
+          "https://picsum.photos/600/400?random=301"
+        ],
+        likes: 24,
+        isLiked: false,
+        comments: [
+          { 
+            user: { 
+              name: "小李", 
+              avatar: "https://picsum.photos/200/200?random=5",
+              signature: "互动达人，喜欢结交朋友",
+              isOfficial: false
+            }, 
+            content: "谢谢官方！", 
+            time: "20小时前" 
+          },
+          { 
+            user: { 
+              name: "小王", 
+              avatar: "https://picsum.photos/200/200?random=6",
+              signature: "美食互动爱好者",
+              isOfficial: false
+            }, 
+            content: "这里氛围很好！", 
+            time: "18小时前" 
+          }
+        ],
+        views: 89
+      }
+    ];
+
+    // 用户设置
+    let userSettings = {
+      userId: "我的账号",
+      avatar: "https://picsum.photos/200/200?random=user",
+      signature: "这个人很懒，什么都没留下",
+      isOfficial: false, // 官方身份标志
+      isUsernameSet: false // 用户名设置标志
+    };
+
+    // 从localStorage加载数据
+    function loadData() {
+      const savedData = localStorage.getItem('interactSpaceData');
+      if (savedData) {
+        posts = JSON.parse(savedData);
+      }
+    }
+
+    // 保存数据到localStorage
+    function saveData() {
+      localStorage.setItem('interactSpaceData', JSON.stringify(posts));
+    }
+
+    // 加载用户设置
+    function loadUserSettings() {
+      const savedSettings = localStorage.getItem('interactSpaceUserSettings');
+      if (savedSettings) {
+        userSettings = JSON.parse(savedSettings);
+      }
+    }
+
+    // 保存用户设置
+    function saveUserSettings() {
+      localStorage.setItem('interactSpaceUserSettings', JSON.stringify(userSettings));
+    }
+
+    // 检查用户名是否唯一
+    function isUsernameUnique(username) {
+      // 官方用户名唯一性检查
+      if (username === OFFICIAL_USER) {
+        // 检查是否已有用户使用该官方用户名
+        const officialUserExists = posts.some(post => 
+          post.user.name === OFFICIAL_USER && post.user.isOfficial
+        );
+        
+        // 如果已有官方用户，且不是当前用户，则不允许设置
+        if (officialUserExists && username !== userSettings.userId) {
+          return false;
+        }
+      }
+      
+      // 检查是否与其他用户冲突
+      return posts.every(post => post.user.name !== username) || 
+             username === userSettings.userId;
+    }
+
+    // 删除留言 - 支持官方账号删除
+    function deletePost(postId) {
+      const post = posts.find(p => p.id === postId);
+      const isOwner = post && post.user.name === userSettings.userId;
+      const isOfficial = userSettings.userId === OFFICIAL_USER && userSettings.isOfficial;
+      
+      if ((isOwner || isOfficial) && confirm('确定要删除这条留言吗？')) {
+        posts = posts.filter(post => post.id !== postId);
+        saveData();
+        renderPosts();
+      }
+    }
+
+    // 删除评论 - 支持官方账号删除
+    function deleteComment(postId, commentIndex) {
+      const post = posts.find(p => p.id === postId);
+      if (!post) return;
+      
+      const comment = post.comments[commentIndex];
+      const isOwner = comment && comment.user.name === userSettings.userId;
+      const isOfficial = userSettings.userId === OFFICIAL_USER && userSettings.isOfficial;
+      
+      if ((isOwner || isOfficial) && confirm('确定要删除这条评论吗？')) {
+        post.comments.splice(commentIndex, 1);
+        saveData();
+        renderPosts();
+      }
+    }
+
+    // 打开用户设置模态框
+    function openUserSettings() {
+      document.getElementById('settingsModal').classList.remove('hidden');
+      document.getElementById('userIdInput').value = userSettings.userId;
+      document.getElementById('signatureInput').value = userSettings.signature;
+      document.getElementById('avatarPreview').src = userSettings.avatar;
+      
+      // 更新官方按钮状态
+      updateOfficialButtons();
+      
+      // 限制用户名输入（官方用户名唯一）
+      const userIdInput = document.getElementById('userIdInput');
+      if (userSettings.userId === OFFICIAL_USER) {
+        userIdInput.disabled = true;
+        userIdInput.classList.add('bg-gray-100');
+      }
+    }
+
+    // 关闭用户设置模态框
+    function closeUserSettings() {
+      document.getElementById('settingsModal').classList.add('hidden');
+      document.getElementById('officialPasswordBox').classList.add('hidden');
+    }
+
+    // 保存用户设置
+    function saveUserSettingsForm() {
+      const newUsername = document.getElementById('userIdInput').value.trim();
+      const newSignature = document.getElementById('signatureInput').value.trim();
+      
+      // 验证用户名
+      if (!newUsername) {
+        alert('请设置用户名');
+        return;
+      }
+      
+      // 检查用户名唯一性
+      if (!isUsernameUnique(newUsername)) {
+        alert('用户名已存在，请设置其他用户名');
+        return;
+      }
+      
+      // 保存设置
+      userSettings.userId = newUsername;
+      userSettings.signature = newSignature;
+      userSettings.isUsernameSet = true;
+      
+      // 更新所有留言的用户信息
+      posts.forEach(post => {
+        if (post.user.name === userSettings.userId) {
+          post.user.name = newUsername;
+          post.user.avatar = userSettings.avatar;
+          post.user.signature = newSignature;
+          post.user.isOfficial = userSettings.isOfficial; // 保留官方身份状态
+          
+          // 更新评论中的用户信息
+          post.comments.forEach(comment => {
+            if (comment.user.name === userSettings.userId) {
+              comment.user.name = newUsername;
+              comment.user.avatar = userSettings.avatar;
+              comment.user.signature = newSignature;
+              comment.user.isOfficial = userSettings.isOfficial; // 保留官方身份状态
+            }
+          });
+        }
+      });
+      
+      saveUserSettings();
+      saveData();
+      renderPosts();
+      closeUserSettings();
+    }
+
+    // 处理头像上传
+    function handleAvatarUpload(e) {
+      const file = e.target.files[0];
+      if (!file.type.match('image.*')) {
+        alert('请上传图片文件');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        userSettings.avatar = e.target.result;
+        document.getElementById('avatarPreview').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // 切换官方身份
+    function toggleOfficialMode() {
+      const passwordBox = document.getElementById('officialPasswordBox');
+      if (userSettings.isOfficial) {
+        // 退出官方身份
+        userSettings.isOfficial = false;
+        saveUserSettings();
+        updateOfficialButtons();
+        renderPosts();
+      } else {
+        // 显示密码输入框（仅当用户名为官方用户名时）
+        if (userSettings.userId === OFFICIAL_USER) {
+          passwordBox.classList.remove('hidden');
+        } else {
+          alert('只有用户名"DIY机器人工房"可以申请官方身份');
+        }
+      }
+    }
+
+    // 验证官方密码
+    function verifyOfficialPassword() {
+      const password = document.getElementById('officialPassword').value;
+      const passwordBox = document.getElementById('officialPasswordBox');
+      
+      if (userSettings.userId === OFFICIAL_USER && password === OFFICIAL_PASSWORD) {
+        userSettings.isOfficial = true;
+        saveUserSettings();
+        passwordBox.classList.add('hidden');
+        updateOfficialButtons();
+        renderPosts();
+        alert("已成功认证为官方账号");
+      } else {
+        alert("用户名或密码错误，无法认证为官方账号");
+      }
+    }
+
+    // 更新官方按钮状态
+    function updateOfficialButtons() {
+      const toggleBtn = document.getElementById('toggleOfficialBtn');
+      const passwordBox = document.getElementById('officialPasswordBox');
+      
+      if (userSettings.userId === OFFICIAL_USER) {
+        toggleBtn.classList.remove('hidden');
+        if (userSettings.isOfficial) {
+          toggleBtn.textContent = "退出官方身份";
+          toggleBtn.className = "w-full bg-official-badge text-white py-2 rounded hover:bg-opacity-80 transition-colors";
+        } else {
+          toggleBtn.textContent = "申请官方身份";
+          toggleBtn.className = "w-full bg-gray-200 text-gray-700 py-2 rounded hover:bg-opacity-80 transition-colors";
+        }
+      } else {
+        toggleBtn.classList.add('hidden');
+        passwordBox.classList.add('hidden');
+      }
+    }
+
+    // 渲染留言列表
+    function renderPosts() {
+      const container = document.getElementById('postsContainer');
+      container.innerHTML = '';
+      
+      posts.forEach(post => {
+        const postEl = document.createElement('div');
+        postEl.className = 'bg-white rounded-lg shadow p-4 mb-4 fade-in';
+        
+        // 用户信息 - 显示官方标志（仅当用户名为DIY机器人工房且已验证）
+        postEl.innerHTML = `
+          <div class="flex items-center mb-3">
+            <img src="${post.user.avatar}" class="w-10 h-10 rounded-full object-cover mr-3 cursor-pointer ${post.user.name === userSettings.userId ? 'border-2 border-interact-blue' : ''}" onclick="${post.user.name === userSettings.userId ? 'openUserSettings()' : `openUserProfile('${post.user.name}', '${post.user.avatar}', '${post.user.signature}')`}">
+            <div>
+              <div class="font-medium flex items-center">
+                ${post.user.name}
+                ${post.user.name === OFFICIAL_USER && post.user.isOfficial ? '<span class="official-badge"><i class="fas fa-check-circle"></i>官方</span>' : ''}
+              </div>
+              <div class="text-sm text-gray-500">${post.time}</div>
+            </div>
+            ${(post.user.name === userSettings.userId || (userSettings.userId === OFFICIAL_USER && userSettings.isOfficial)) ? '<button onclick="deletePost(' + post.id + ')" class="ml-auto text-gray-500 hover:text-interact-red"><i class="fas fa-trash-alt"></i></button>' : ''}
+          </div>
+          <div class="mb-3">
+            <p class="content-collapsed">${post.content}</p>
+            ${post.content.length > 100 ? '<button class="text-interact-blue text-sm mt-1" onclick="toggleFullText(this)">查看全文</button>' : ''}
+          </div>
+        `;
+        
+        // 图片展示
+        if (post.images.length > 0) {
+          const imagesContainer = document.createElement('div');
+          imagesContainer.className = `grid ${post.images.length === 1 ? 'grid-cols-1' : post.images.length === 2 ? 'grid-cols-2' : 'grid-cols-3'} gap-2 mb-3`;
+          
+          post.images.forEach((img, index) => {
+            const imgEl = document.createElement('img');
+            imgEl.src = img;
+            imgEl.className = 'w-full h-40 object-cover rounded-lg post-image';
+            imgEl.onclick = () => openImageModal(post.images, index);
+            imgEl.ontouchstart = (e) => {
+              if (e.touches.length === 1) {
+                setTimeout(() => {
+                  if (e.touches.length === 1) {
+                    alert('长按可保存图片');
+                  }
+                }, 500);
+              }
+            };
+            imagesContainer.appendChild(imgEl);
+          });
+          
+          postEl.appendChild(imagesContainer);
+        }
+        
+        // 互动区
+        const actionsContainer = document.createElement('div');
+        actionsContainer.className = 'flex items-center border-t pt-3';
+        
+        // 点赞按钮
+        const likeButton = document.createElement('button');
+        likeButton.className = `flex items-center mr-4 ${post.isLiked ? 'text-interact-red' : 'text-gray-500'} hover:text-interact-red transition-colors`;
+        likeButton.innerHTML = `
+          <i class="fas fa-heart mr-1"></i>
+          <span>${post.likes}</span>
+        `;
+        likeButton.onclick = () => toggleLike(post.id);
+        actionsContainer.appendChild(likeButton);
+        
+        // 评论输入框
+        const commentInput = document.createElement('div');
+        commentInput.className = 'flex-1 flex';
+        commentInput.innerHTML = `
+          <input type="text" placeholder="写评论..." class="flex-1 border rounded-l-lg px-3 py-1 focus:outline-none focus:ring-1 focus-interact-blue" id="comment-input-${post.id}">
+          <button class="bg-interact-blue text-white px-3 py-1 rounded-r-lg hover:bg-blue-600 transition-colors" onclick="addComment(${post.id}, 'comment-input-${post.id}')">回复</button>
+        `;
+        actionsContainer.appendChild(commentInput);
+        
+        postEl.appendChild(actionsContainer);
+        
+        // 浏览量
+        const viewsEl = document.createElement('div');
+        viewsEl.className = 'text-xs text-gray-500 mt-2';
+        viewsEl.textContent = `${post.views}次浏览`;
+        postEl.appendChild(viewsEl);
+        
+        // 评论列表
+        if (post.comments.length > 0) {
+          const commentsContainer = document.createElement('div');
+          commentsContainer.className = 'mt-3 border-t pt-3';
+          
+          post.comments.forEach((comment, index) => {
+            const commentEl = document.createElement('div');
+            commentEl.className = 'mb-2 last:mb-0';
+            commentEl.innerHTML = `
+              <div class="flex items-center">
+                <img src="${comment.user.avatar}" class="w-6 h-6 rounded-full mr-2 cursor-pointer" onclick="${comment.user.name === userSettings.userId ? 'openUserSettings()' : `openUserProfile('${comment.user.name}', '${comment.user.avatar}', '${comment.user.signature}')`}">
+                <span class="font-medium text-sm">${comment.user.name}</span>
+                ${comment.user.name === OFFICIAL_USER && comment.user.isOfficial ? '<span class="official-badge"><i class="fas fa-check-circle"></i>官方</span>' : ''}
+                <span class="text-xs text-gray-500 ml-2">${comment.time}</span>
+                ${(comment.user.name === userSettings.userId || (userSettings.userId === OFFICIAL_USER && userSettings.isOfficial)) ? '<button onclick="deleteComment(' + post.id + ',' + index + ')" class="ml-auto text-gray-500 hover:text-interact-red"><i class="fas fa-trash-alt text-xs"></i></button>' : ''}
+              </div>
+              <div class="text-sm mt-1 ml-8">${comment.content}</div>
+            `;
+            commentsContainer.appendChild(commentEl);
+          });
+          
+          postEl.appendChild(commentsContainer);
+        }
+        
+        container.appendChild(postEl);
+      });
+    }
+
+    // 切换全文显示
+    function toggleFullText(button) {
+      const content = button.previousElementSibling;
+      if (content.classList.contains('content-collapsed')) {
+        content.classList.remove('content-collapsed');
+        button.textContent = '收起';
+      } else {
+        content.classList.add('content-collapsed');
+        button.textContent = '查看全文';
+      }
+    }
+
+    // 点赞/取消点赞
+    function toggleLike(postId) {
+      const post = posts.find(p => p.id === postId);
+      if (post) {
+        post.isLiked = !post.isLiked;
+        post.likes = post.isLiked ? post.likes + 1 : post.likes - 1;
+        saveData();
+        renderPosts();
+      }
+    }
+
+    // 添加评论
+    function addComment(postId, inputId) {
+      const content = document.getElementById(inputId).value.trim();
+      if (!content) return;
+      
+      const post = posts.find(p => p.id === postId);
+      if (post) {
+        post.comments.push({
+          user: { 
+            name: userSettings.userId, 
+            avatar: userSettings.avatar,
+            signature: userSettings.signature,
+            isOfficial: userSettings.isOfficial
+          },
+          content: content,
+          time: "刚刚"
+        });
+        saveData();
+        renderPosts();
+        document.getElementById(inputId).value = '';
+      }
+    }
+
+    // 打开图片预览
+    let currentImages = [];
+    let currentIndex = 0;
+    
+    function openImageModal(images, index) {
+      currentImages = images;
+      currentIndex = index;
+      document.getElementById('modalImage').src = images[index];
+      document.getElementById('imageModal').classList.remove('hidden');
+    }
+    
+    // 关闭图片预览
+    function closeImageModal() {
+      document.getElementById('imageModal').classList.add('hidden');
+    }
+    
+    // 切换上一张图片
+    function prevImage() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        document.getElementById('modalImage').src = currentImages[currentIndex];
+      }
+    }
+    
+    // 切换下一张图片
+    function nextImage() {
+      if (currentIndex < currentImages.length - 1) {
+        currentIndex++;
+        document.getElementById('modalImage').src = currentImages[currentIndex];
+      }
+    }
+
+    // 发布新留言
+    function createPost() {
+      const content = document.getElementById('postContent').value.trim();
+      if (!content) {
+        alert('请输入留言内容');
+        return;
+      }
+      
+      // 检查是否设置了用户名
+      if (!userSettings.isUsernameSet) {
+        alert('请先设置用户名');
+        openUserSettings();
+        return;
+      }
+      
+      const newPost = {
+        id: Date.now(),
+        user: { 
+          name: userSettings.userId, 
+          avatar: userSettings.avatar,
+          signature: userSettings.signature,
+          isOfficial: userSettings.isOfficial
+        },
+        time: "刚刚",
+        content: content,
+        images: Array.from(document.querySelectorAll('#imagePreview img')).map(img => img.src),
+        likes: 0,
+        isLiked: false,
+        comments: [],
+        views: 0
+      };
+      
+      posts.unshift(newPost);
+      saveData();
+      renderPosts();
+      
+      // 清空输入
+      document.getElementById('postContent').value = '';
+      document.getElementById('imagePreview').innerHTML = '';
+      document.getElementById('imagePreview').classList.add('hidden');
+      document.getElementById('charCount').textContent = '0/500';
+    }
+
+    // 图片上传预览
+    function handleImageUpload(e) {
+      const files = e.target.files;
+      if (files.length > 9) {
+        alert('最多只能上传9张图片');
+        return;
+      }
+      
+      const preview = document.getElementById('imagePreview');
+      preview.innerHTML = '';
+      
+      Array.from(files).forEach(file => {
+        if (!file.type.match('image.*')) {
+          alert('请上传图片文件');
+          return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.className = 'w-full h-32 object-cover rounded-lg';
+          preview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+      
+      preview.classList.remove('hidden');
+    }
+
+    // 打开用户资料模态框
+    function openUserProfile(name, avatar, signature) {
+      document.getElementById('profileName').textContent = name;
+      document.getElementById('profileAvatar').src = avatar;
+      document.getElementById('profileSignature').textContent = signature || "这家伙很懒，还没有设置个性签名";
+      document.getElementById('signatureDisplay').textContent = signature || "这家伙很懒，还没有设置个性签名";
+      document.getElementById('userProfileModal').classList.remove('hidden');
+    }
+
+    // 关闭用户资料模态框
+    function closeUserProfile() {
+      document.getElementById('userProfileModal').classList.add('hidden');
+    }
+
+    // 初始化
+    function init() {
+      // 加载数据
+      loadData();
+      loadUserSettings();
+      
+      // 事件监听
+      document.getElementById('postButton').addEventListener('click', createPost);
+      document.getElementById('imageUpload').addEventListener('change', handleImageUpload);
+      document.getElementById('avatarUpload').addEventListener('change', handleAvatarUpload);
+      document.getElementById('saveSettingsBtn').addEventListener('click', saveUserSettingsForm);
+      document.getElementById('postContent').addEventListener('input', function() {
+        document.getElementById('charCount').textContent = `${this.value.length}/500`;
+      });
+      document.getElementById('closeModal').addEventListener('click', closeImageModal);
+      document.getElementById('prevImage').addEventListener('click', prevImage);
+      document.getElementById('nextImage').addEventListener('click', nextImage);
+      document.getElementById('toggleOfficialBtn').addEventListener('click', toggleOfficialMode);
+      document.getElementById('verifyOfficialBtn').addEventListener('click', verifyOfficialPassword);
+      
+      // 渲染页面
+      renderPosts();
+      
+      // 模拟浏览量增加
+      posts.forEach(post => {
+        post.views++;
+      });
+      saveData();
+    }
+
+    // 页面加载后初始化
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
