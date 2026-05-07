@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>用户注册</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Microsoft YaHei";
+      }
+      body {
+        background: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      .register-box {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 400px;
+      }
+      .register-box h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+      }
+      .register-box input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      .register-box button {
+        width: 100%;
+        padding: 12px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+      }
+      .register-box button:hover {
+        background: #218838;
+      }
+      .tips {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 14px;
+      }
+      .tips a {
+        color: #007bff;
+        text-decoration: none;
+      }
+      .error {
+        color: #dc3545;
+        text-align: center;
+        margin: 10px 0;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="register-box">
+      <h2>用户注册</h2>
+      <div class="error" id="errorMsg"></div>
+      <input type="text" id="username" placeholder="请设置账号" />
+      <input type="password" id="password" placeholder="请设置密码" />
+      <button onclick="register()">注册</button>
+      <div class="tips">已有账号？<a href="login.html">立即登录</a></div>
+    </div>
+
+    <script>
+      async function register() {
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const errorMsg = document.getElementById("errorMsg");
+
+        if (!username || !password) {
+          errorMsg.style.display = "block";
+          errorMsg.textContent = "账号和密码不能为空！";
+          return;
+        }
+
+        try {
+          const res = await fetch("/api/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+          });
+          const data = await res.json();
+          if (data.success) {
+            alert(data.msg);
+            window.location.href = "login.html"; // 注册成功跳登录页
+          } else {
+            errorMsg.style.display = "block";
+            errorMsg.textContent = data.msg;
+          }
+        } catch (err) {
+          errorMsg.style.display = "block";
+          errorMsg.textContent = "网络错误，请重试！";
+        }
+      }
+    </script>
+  </body>
+</html>
