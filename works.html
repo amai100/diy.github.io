@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>作品集 - DIY机器人工房</title>
+    <link rel="icon" href="/diy.github.io/index_files/logo.png" />
+    <link rel="stylesheet" href="/diy.github.io/index_files/bootstrap.min.css" />
+    <link rel="stylesheet" href="/diy.github.io/index_files/index.css" />
+    <style>
+      .page-title {
+        text-align: center;
+        margin: 60px 0 40px;
+        color: #1e3a5f;
+        font-size: 2rem;
+      }
+      .page-title::before,
+      .page-title::after {
+        content: '◈';
+        margin: 0 15px;
+        color: #06b6d4;
+      }
+      .works-container {
+        max-width: 1200px;
+        margin: 0 auto 50px;
+        padding: 0 20px;
+      }
+      .works-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+      }
+      .work-card {
+        background: white;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        width: 100%;
+        max-width: 600px;
+      }
+      .work-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+      }
+      .work-image {
+        width: 100%;
+        height: 300px;
+        object-fit: contain;
+        background: #f8fafc;
+        transition: transform 0.4s ease;
+        cursor: zoom-in;
+      }
+
+      .image-modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.9);
+        overflow: hidden;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .image-modal.show {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1);
+        cursor: grab;
+        max-width: 95vw;
+        max-height: 95vh;
+        background: transparent;
+      }
+
+      .modal-content:active {
+        cursor: grabbing;
+      }
+
+      .modal-content img {
+        max-width: 95vw;
+        max-height: 85vh;
+        object-fit: contain;
+        display: block;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: white;
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 1001;
+      }
+
+      .close-btn:hover {
+        color: #ccc;
+      }
+
+      .zoom-controls {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 1001;
+      }
+
+      .zoom-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background 0.3s;
+      }
+
+      .zoom-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+      .work-content {
+        padding: 15px;
+        text-align: center;
+      }
+      .work-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1e3a5f;
+        margin-bottom: 8px;
+      }
+      .work-desc {
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      @media (max-width: 768px) {
+        .page-title {
+          font-size: 1.6rem;
+        }
+        .works-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .work-image {
+          height: 180px;
+          object-fit: contain;
+          background: #f8fafc;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div id="nav-container" class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/diy.github.io/">
+                <img style="height: 40px" src="/diy.github.io/index_files/logo.png" alt="img" />
+              </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="https://diyjqr.blog.csdn.net/" target="_blank">资料下载</a></li>
+                <li><a href="/diy.github.io/works.html">作品集</a></li>
+                <li><a href="https://m.tb.cn/h.6nXwFZj6hrlCBPG" target="_blank">淘宝链接</a></li>
+                <li><a href="/diy.github.io/about.html">关于我们</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div style="height: 50px"></div>
+
+    <h1 class="page-title">作品集</h1>
+
+    <div class="works-container">
+      <div class="works-grid" id="worksGrid">
+      </div>
+    </div>
+
+    <div id="imageModal" class="image-modal">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <div class="modal-content" id="modalContent">
+        <img id="modalImage" src="" alt="" />
+      </div>
+      <div class="zoom-controls">
+        <button class="zoom-btn" onclick="zoomOut()">-</button>
+        <span id="zoomPercentage" style="color: white; line-height: 36px; min-width: 60px; text-align: center;">100%</span>
+        <button class="zoom-btn" onclick="zoomIn()">+</button>
+      </div>
+    </div>
+
+    <script src="/diy.github.io/index_files/jquery.min.js.下载"></script>
+    <script src="/diy.github.io/index_files/bootstrap.min.js.下载"></script>
+    <script>
+      const works = [
+        {
+          id: 1,
+          title: '乒乓球发球机',
+          description: '自制乒乓球发球机，支持多种发球模式（上旋、下旋、侧旋），可调节发球速度和频率。采用STM32控制，配合舵机和直流电机实现精准发球。',
+          image: '/diy.github.io/works_files/ppqfqj.jpg'
+        }
+      ];
+
+      function renderWorks() {
+        const grid = document.getElementById('worksGrid');
+        if (works.length === 0) {
+          grid.innerHTML = `<div class="panel panel-default" style="text-align:center; padding:80px;">
+            <div class="panel-body">
+              <h3>暂无作品</h3>
+              <p>请在 works_files 文件夹中添加图片，并编辑 works.html 中的 works 数组</p>
+            </div>
+          </div>`;
+          return;
+        }
+
+        works.forEach((work) => {
+          const card = document.createElement('div');
+          card.className = 'work-card';
+          card.innerHTML = `
+            <img src="${work.image}" alt="${work.title}" class="work-image" onclick="openModal('${work.image}')" />
+            <div class="work-content">
+              <h3 class="work-title">${work.title}</h3>
+              <p class="work-desc">${work.description}</p>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      let zoom = 1;
+      let isDragging = false;
+      let startX = 0;
+      let startY = 0;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      function openModal(src) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalContent = document.getElementById('modalContent');
+        
+        modalImage.src = src;
+        modal.classList.add('show');
+        zoom = 1;
+        offsetX = 0;
+        offsetY = 0;
+        updateTransform();
+        
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+        zoom = 1;
+        offsetX = 0;
+        offsetY = 0;
+      }
+
+      function zoomIn() {
+        zoom += 0.25;
+        updateTransform();
+      }
+
+      function zoomOut() {
+        zoom = Math.max(1, zoom - 0.25);
+        offsetX = 0;
+        offsetY = 0;
+        updateTransform();
+      }
+
+      function updateTransform() {
+        const modalContent = document.getElementById('modalContent');
+        const percentage = document.getElementById('zoomPercentage');
+        modalContent.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px)) scale(${zoom})`;
+        percentage.textContent = Math.round(zoom * 100) + '%';
+      }
+
+      document.getElementById('modalContent').addEventListener('mousedown', (e) => {
+        if (zoom > 1) {
+          isDragging = true;
+          startX = e.clientX - offsetX;
+          startY = e.clientY - offsetY;
+        }
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+          offsetX = e.clientX - startX;
+          offsetY = e.clientY - startY;
+          updateTransform();
+        }
+      });
+
+      document.addEventListener('mouseup', () => {
+        isDragging = false;
+      });
+
+      document.getElementById('imageModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('imageModal')) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeModal();
+        }
+      });
+
+      renderWorks();
+    </script>
+  </body>
+</html>
