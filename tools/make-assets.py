@@ -60,6 +60,21 @@ def main() -> None:
     )
     (OUT / "beian.png").write_bytes((ROOT / "index_files" / "beian.png").read_bytes())
 
+    # Platform app icons (bilibili / 小红书 / 抖音 / CSDN / 淘宝), rounded and transparent.
+    platforms = OUT / "platforms"
+    platforms.mkdir(parents=True, exist_ok=True)
+    for name, source in {
+        "bilibili": "index_files/bilibili.jpg",
+        "xiaohongshu": "index_files/xiaohongshu.jpg",
+        "douyin": "index_files/douyin.jpg",
+        "csdn": "index_files/csdn.jpg",
+    }.items():
+        icon = Image.open(ROOT / source).convert("RGBA").resize((512, 512), Image.LANCZOS)
+        mask = Image.new("L", (512, 512), 0)
+        ImageDraw.Draw(mask).rounded_rectangle((0, 0, 511, 511), radius=118, fill=255)
+        icon.putalpha(mask)
+        icon.save(platforms / f"{name}.webp", "WEBP", quality=90, method=6)
+
     # Work-in-progress photo: crop the monitor, lift contrast a little.
     work = Image.open(SRC_WORK).convert("RGB")
     work = work.crop((18, 58, 1160, 760))
