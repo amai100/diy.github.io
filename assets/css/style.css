@@ -314,11 +314,13 @@ svg {
   background: rgba(148, 197, 255, 0.07);
 }
 
-.nav-links a[aria-current="page"] {
+.nav-links a[aria-current="page"],
+.nav-links a[aria-current="location"] {
   color: var(--text);
 }
 
-.nav-links a[aria-current="page"]::after {
+.nav-links a[aria-current="page"]::after,
+.nav-links a[aria-current="location"]::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -2648,7 +2650,8 @@ svg {
     font-size: 15px;
   }
 
-  .nav-links a[aria-current="page"]::after {
+  .nav-links a[aria-current="page"]::after,
+  .nav-links a[aria-current="location"]::after {
     left: auto;
     right: 16px;
     top: 50%;

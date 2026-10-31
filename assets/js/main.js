@@ -84,6 +84,88 @@
   );
   onScroll();
 
+  /* ---------- in-page nav state (首页 / 资料) ---------- */
+
+  const nav = document.getElementById("siteNav");
+  const resources = document.getElementById("resources");
+
+  if (nav && resources) {
+    const homeLink = nav.querySelector('a[href="index.html"]');
+    const resourceLink = nav.querySelector('a[href="#resources"]');
+
+    if (homeLink && resourceLink) {
+      let suppressUntil = 0;
+
+      const setCurrent = (link, value) => {
+        nav.querySelectorAll("a[aria-current]").forEach((item) => {
+          if (item !== link) item.removeAttribute("aria-current");
+        });
+        if (link.getAttribute("aria-current") !== value) {
+          link.setAttribute("aria-current", value);
+        }
+      };
+
+      const sync = () => {
+        if (window.performance.now() < suppressUntil) return;
+
+        const threshold = window.innerHeight * 0.55;
+        const isResource = resources.getBoundingClientRect().top <= threshold;
+
+        if (isResource) {
+          setCurrent(resourceLink, "location");
+        } else {
+          setCurrent(homeLink, "page");
+        }
+      };
+
+      document.querySelectorAll('a[href="#resources"]').forEach((link) => {
+        link.addEventListener("click", () => {
+          suppressUntil = window.performance.now() + 900;
+          setCurrent(resourceLink, "location");
+        });
+      });
+
+      homeLink.addEventListener("click", (event) => {
+        if (
+          event.metaKey ||
+          event.ctrlKey ||
+          event.shiftKey ||
+          event.altKey ||
+          event.button !== 0
+        ) {
+          return;
+        }
+
+        event.preventDefault();
+        suppressUntil = window.performance.now() + 800;
+        window.scrollTo({
+          top: 0,
+          behavior: reduceMotion.matches ? "auto" : "smooth",
+        });
+        if (window.location.hash) {
+          history.replaceState(
+            null,
+            "",
+            window.location.pathname + window.location.search
+          );
+        }
+        setCurrent(homeLink, "page");
+      });
+
+      window.addEventListener("scroll", sync, { passive: true });
+      window.addEventListener("hashchange", () => window.setTimeout(sync, 80));
+      window.addEventListener("load", () => window.setTimeout(sync, 80));
+
+      if (window.location.hash === "#resources") {
+        suppressUntil = window.performance.now() + 900;
+        setCurrent(resourceLink, "location");
+        window.setTimeout(sync, 950);
+      } else {
+        sync();
+      }
+    }
+  }
+
   /* ---------- mobile menu ---------- */
 
   function closeMenu() {
