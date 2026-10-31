@@ -1040,7 +1040,9 @@ svg {
   color: var(--text-2);
   font-size: 15px;
   line-height: 1.9;
-  text-align: right;
+  text-align: justify;
+  text-align-last: right;
+  text-justify: inter-ideograph;
 }
 
 .capability-grid {
