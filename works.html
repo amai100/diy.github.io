@@ -1,340 +1,276 @@
 <!doctype html>
 <html lang="zh-CN">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>作品集 - DIY机器人工房</title>
-    <link rel="icon" href="index_files/logo.png" />
-    <link rel="stylesheet" href="index_files/bootstrap.min.css" />
-    <link rel="stylesheet" href="index_files/index.css" />
-    <style>
-      .page-title {
-        text-align: center;
-        margin: 60px 0 40px;
-        color: #1e3a5f;
-        font-size: 2rem;
-      }
-      .page-title::before,
-      .page-title::after {
-        content: '◈';
-        margin: 0 15px;
-        color: #06b6d4;
-      }
-      .works-container {
-        max-width: 1200px;
-        margin: 0 auto 50px;
-        padding: 0 20px;
-      }
-      .works-grid {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-      }
-      .work-card {
-        background: white;
-        border-radius: 1rem;
-        overflow: hidden;
-        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        cursor: pointer;
-        width: 100%;
-        max-width: 600px;
-      }
-      .work-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
-      }
-      .work-image {
-        width: 100%;
-        height: 300px;
-        object-fit: contain;
-        background: #f8fafc;
-        transition: transform 0.4s ease;
-        cursor: zoom-in;
-      }
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>作品集 · DIY机器人工房</title>
+    <meta
+      name="description"
+      content="DIY机器人工房的项目档案：乒乓球发球机、4G + GPS 定位器、UWB 室内定位等机器人项目的结构、控制与制作记录。"
+    />
+    <meta name="theme-color" content="#060a12" />
+    <link rel="canonical" href="http://diyjqrgf.bbroot.com/works.html" />
 
-      .image-modal {
-        display: none;
-        position: fixed;
-        z-index: 9999;
-        left: 0;
-        top: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.9);
-        overflow: hidden;
-        align-items: center;
-        justify-content: center;
-      }
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:site_name" content="DIY机器人工房" />
+    <meta property="og:title" content="作品集 · DIY机器人工房" />
+    <meta
+      property="og:description"
+      content="从结构、控制到调试，记录每一个从零开始的项目。"
+    />
+    <meta property="og:url" content="http://diyjqrgf.bbroot.com/works.html" />
+    <meta property="og:image" content="http://diyjqrgf.bbroot.com/assets/img/og-cover.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
 
-      .image-modal.show {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="stylesheet" href="assets/css/style.css" />
 
-      .modal-content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(1);
-        cursor: grab;
-        max-width: 95vw;
-        max-height: 95vh;
-        background: transparent;
-      }
-
-      .modal-content:active {
-        cursor: grabbing;
-      }
-
-      .modal-content img {
-        max-width: 95vw;
-        max-height: 85vh;
-        object-fit: contain;
-        display: block;
-      }
-
-      .close-btn {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        color: white;
-        font-size: 30px;
-        font-weight: bold;
-        cursor: pointer;
-        z-index: 1001;
-      }
-
-      .close-btn:hover {
-        color: #ccc;
-      }
-
-      .zoom-controls {
-        position: absolute;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 10px;
-        z-index: 1001;
-      }
-
-      .zoom-btn {
-        background: rgba(255, 255, 255, 0.2);
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: background 0.3s;
-      }
-
-      .zoom-btn:hover {
-        background: rgba(255, 255, 255, 0.3);
-      }
-      .work-content {
-        padding: 15px;
-        text-align: center;
-      }
-      .work-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #1e3a5f;
-        margin-bottom: 8px;
-      }
-      .work-desc {
-        color: #64748b;
-        font-size: 14px;
-        line-height: 1.6;
-      }
-      @media (max-width: 768px) {
-        .page-title {
-          font-size: 1.6rem;
-        }
-        .works-grid {
-          grid-template-columns: 1fr;
-          gap: 20px;
-        }
-        .work-image {
-          height: 180px;
-          object-fit: contain;
-          background: #f8fafc;
-        }
-      }
-    </style>
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("diy-theme");
+          var query = new URLSearchParams(location.search).get("theme");
+          if (query === "light" || query === "dark") saved = query;
+          if (saved === "light") document.documentElement.dataset.theme = "light";
+        } catch (error) {}
+        document.documentElement.classList.add("js");
+      })();
+    </script>
   </head>
+
   <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div id="nav-container" class="container">
-        <div class="row">
-          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="index.html">
-                <img style="height: 40px" src="index_files/logo.png" alt="img" />
-              </a>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header class="site-header" id="siteHeader">
+      <div class="scroll-progress" aria-hidden="true"></div>
+      <div class="nav-shell">
+        <a class="brand" href="index.html" aria-label="DIY机器人工房 首页">
+          <img src="assets/img/logo-96.png" alt="" width="42" height="42" />
+          <span class="brand-text">
+            <strong>DIY机器人工房</strong>
+            <small>ROBOT WORKSHOP</small>
+          </span>
+        </a>
+
+        <nav class="nav-links" id="siteNav" aria-label="主导航">
+          <a href="index.html">首页</a>
+          <a href="works.html" aria-current="page">作品集</a>
+          <a href="index.html#resources">资料</a>
+          <a href="about.html">关于</a>
+          <a
+            class="nav-external"
+            href="https://space.bilibili.com/3494354003954471"
+            target="_blank"
+            rel="noopener noreferrer"
+            >B 站主页 ↗</a
+          >
+        </nav>
+
+        <div class="nav-actions">
+          <a
+            class="btn-ghost nav-cta"
+            href="https://space.bilibili.com/3494354003954471"
+            target="_blank"
+            rel="noopener noreferrer"
+            >B 站主页 <span aria-hidden="true">↗</span></a
+          >
+          <button class="theme-toggle" type="button" aria-label="切换主题" title="切换主题">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z" />
+            </svg>
+          </button>
+          <button
+            class="menu-toggle"
+            type="button"
+            aria-label="打开菜单"
+            aria-expanded="false"
+            aria-controls="siteNav"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="page-hero" aria-labelledby="page-title">
+        <div class="container page-hero-grid">
+          <div>
+            <p class="eyebrow"><span class="dot"></span>PROJECT ARCHIVE</p>
+            <h1 id="page-title">作品<span class="outline">档案</span></h1>
+            <p class="lead">
+              这里放已经走完整个流程的项目。结构怎么搭、代码怎么写、坑怎么填，都会尽量整理出来。
+            </p>
+          </div>
+          <div class="page-meta" aria-label="项目数量">
+            <span class="big-num" data-project-count>01</span>
+            <p class="meta-text">PROJECT / 持续更新<br />BUILD LOG</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--tight" aria-labelledby="archive-title">
+        <div class="container">
+          <header class="section-head reveal">
+            <span class="section-index" data-project-index>ARCHIVE / 01</span>
+            <div>
+              <p class="section-kicker">ALL PROJECTS</p>
+              <h2 class="section-title" id="archive-title">从零开始的项目</h2>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-              <ul class="nav navbar-nav">
-                <li><a href="https://diyjqr.blog.csdn.net/" target="_blank">资料下载</a></li>
-                <li><a href="works.html">作品集</a></li>
-                <li><a href="https://m.tb.cn/h.6nXwFZj6hrlCBPG" target="_blank">淘宝链接</a></li>
-                <li><a href="about.html">关于我们</a></li>
-              </ul>
+            <p class="section-note">点击项目，查看结构示意、控制界面与制作说明。</p>
+          </header>
+
+          <div class="archive-list" id="archiveList">
+            <noscript>
+              <p class="muted">项目详情需要启用 JavaScript 才能展开。也可以直接发邮件了解制作过程。</p>
+            </noscript>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="wip-title">
+        <div class="container">
+          <header class="section-head reveal">
+            <span class="section-index">WIP / NOW</span>
+            <div>
+              <p class="section-kicker">WORK IN PROGRESS</p>
+              <h2 class="section-title" id="wip-title">工房里还在折腾的</h2>
             </div>
+            <p class="section-note">还没整理完的项目，先留个位置。完成后会陆续补上图文记录。</p>
+          </header>
+
+          <div class="wip-grid">
+            <article class="wip-card reveal">
+              <span class="num" aria-hidden="true">01</span>
+              <span class="wip-status"><i aria-hidden="true"></i>调试中</span>
+              <h3>4G + GPS 定位器</h3>
+              <p>把经纬度绑定到地图上，做一个可以随身携带的小型定位终端，并配上可视化平台。</p>
+              <div class="wip-tags"><span>4G</span><span>GPS</span><span>地图可视化</span></div>
+            </article>
+
+            <article class="wip-card reveal" data-reveal-delay="80">
+              <span class="num" aria-hidden="true">02</span>
+              <span class="wip-status"><i aria-hidden="true"></i>资料整理</span>
+              <h3>UWB 室内定位</h3>
+              <p>基于 UWB 模块的测距与定位实验，正在把模块资料和调试过程整理成可以复用的笔记。</p>
+              <div class="wip-tags"><span>UWB</span><span>测距</span><span>室内定位</span></div>
+            </article>
+
+            <article class="wip-card reveal" data-reveal-delay="160">
+              <span class="num" aria-hidden="true">03</span>
+              <span class="wip-status"><i aria-hidden="true"></i>结构迭代</span>
+              <h3>第二代乒乓球发球机</h3>
+              <p>第一代的迭代版本，结构和发球稳定性都在重做，目标是更可靠、更好装配。</p>
+              <div class="wip-tags"><span>结构</span><span>发球机构</span><span>迭代</span></div>
+            </article>
+          </div>
+
+          <div class="cta-band reveal">
+            <div>
+              <p class="kicker">COLLABORATE</p>
+              <h2>有新项目想一起做？</h2>
+              <p>不管是想法、硬件还是代码，都可以聊聊。</p>
+            </div>
+            <a class="btn btn-primary" href="mailto:1323280131@qq.com">写信给我 <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a class="brand" href="index.html" aria-label="DIY机器人工房 首页">
+              <img src="assets/img/logo-96.png" alt="" width="42" height="42" />
+              <span class="brand-text">
+                <strong>DIY机器人工房</strong>
+                <small>ROBOT WORKSHOP</small>
+              </span>
+            </a>
+            <p>一个专注于机器人设计、制作和编程的创意空间。把想法做成会动的机器。</p>
+          </div>
+
+          <div class="footer-col">
+            <h4>Sitemap</h4>
+            <a href="index.html">首页</a>
+            <a href="works.html">作品集</a>
+            <a href="index.html#resources">资料</a>
+            <a href="about.html">关于</a>
+          </div>
+
+          <div class="footer-col">
+            <h4>Channels</h4>
+            <a href="https://space.bilibili.com/3494354003954471" target="_blank" rel="noopener noreferrer">哔哩哔哩</a>
+            <a href="https://diyjqr.blog.csdn.net/" target="_blank" rel="noopener noreferrer">CSDN</a>
+            <a href="https://m.tb.cn/h.6nXwFZj6hrlCBPG" target="_blank" rel="noopener noreferrer">淘宝资料包</a>
+          </div>
+
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <a href="mailto:1323280131@qq.com">1323280131@qq.com</a>
+            <address>建议 / 合作 / 交流<br />都欢迎来信</address>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>© <span data-year>2026</span> DIY机器人工房 · Built with care.</span>
+          <div class="legal">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">ICP 备案：xxxxxxxxxx</a>
+            <a
+              href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32011402011336"
+              target="_blank"
+              rel="noopener noreferrer"
+              ><img src="assets/img/beian.png" alt="" width="14" height="14" />公安备案：xxxxxxxx</a
+            >
           </div>
         </div>
       </div>
-    </nav>
-    <div style="height: 50px"></div>
+    </footer>
 
-    <h1 class="page-title">作品集</h1>
+    <button class="to-top" type="button" data-to-top aria-label="回到顶部">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 19V5M5 12l7-7 7 7" />
+      </svg>
+    </button>
 
-    <div class="works-container">
-      <div class="works-grid" id="worksGrid">
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- 项目详情 -->
+    <dialog class="dialog project-dialog" id="projectDialog" aria-labelledby="pdTitle">
+      <button class="dialog-close" type="button" data-close-dialog aria-label="关闭项目详情">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
+
+      <div class="project-dialog__panel">
+        <div class="pd-visual">
+          <img id="pdImage" src="assets/img/works/pingpong-blueprint.svg" alt="" width="800" height="600" />
+        </div>
+
+        <div class="pd-body">
+          <p class="kicker" id="pdKicker">PROJECT / 01</p>
+          <h2 id="pdTitle">乒乓球发球机</h2>
+          <p id="pdDesc"></p>
+          <ul class="tag-list" id="pdTags" aria-label="项目标签"></ul>
+          <dl class="spec-list" id="pdSpecs"></dl>
+          <div class="pd-thumbs" id="pdThumbs" aria-label="项目图片"></div>
+          <p class="pd-note" id="pdNote"></p>
+          <div class="story-actions" id="pdLinks"></div>
+        </div>
       </div>
-    </div>
+    </dialog>
 
-    <div id="imageModal" class="image-modal">
-      <span class="close-btn" onclick="closeModal()">&times;</span>
-      <div class="modal-content" id="modalContent">
-        <img id="modalImage" src="" alt="" />
-      </div>
-      <div class="zoom-controls">
-        <button class="zoom-btn" onclick="zoomOut()">-</button>
-        <span id="zoomPercentage" style="color: white; line-height: 36px; min-width: 60px; text-align: center;">100%</span>
-        <button class="zoom-btn" onclick="zoomIn()">+</button>
-      </div>
-    </div>
-
-    <script src="index_files/jquery.min.js.下载"></script>
-    <script src="index_files/bootstrap.min.js.下载"></script>
-    <script>
-      const works = [
-        {
-          id: 1,
-          title: '乒乓球发球机',
-          description: '自制乒乓球发球机，支持多种发球模式（上旋、下旋、侧旋），可调节发球速度和频率。采用STM32控制，配合舵机和直流电机实现精准发球。',
-          image: 'works_files/ppqfqj.jpg'
-        }
-      ];
-
-      function renderWorks() {
-        const grid = document.getElementById('worksGrid');
-        if (works.length === 0) {
-          grid.innerHTML = `<div class="panel panel-default" style="text-align:center; padding:80px;">
-            <div class="panel-body">
-              <h3>暂无作品</h3>
-              <p>请在 works_files 文件夹中添加图片，并编辑 works.html 中的 works 数组</p>
-            </div>
-          </div>`;
-          return;
-        }
-
-        works.forEach((work) => {
-          const card = document.createElement('div');
-          card.className = 'work-card';
-          card.innerHTML = `
-            <img src="${work.image}" alt="${work.title}" class="work-image" onclick="openModal('${work.image}')" />
-            <div class="work-content">
-              <h3 class="work-title">${work.title}</h3>
-              <p class="work-desc">${work.description}</p>
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-      }
-
-      let zoom = 1;
-      let isDragging = false;
-      let startX = 0;
-      let startY = 0;
-      let offsetX = 0;
-      let offsetY = 0;
-
-      function openModal(src) {
-        const modal = document.getElementById('imageModal');
-        const modalImage = document.getElementById('modalImage');
-        const modalContent = document.getElementById('modalContent');
-        
-        modalImage.src = src;
-        modal.classList.add('show');
-        zoom = 1;
-        offsetX = 0;
-        offsetY = 0;
-        updateTransform();
-        
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeModal() {
-        const modal = document.getElementById('imageModal');
-        modal.classList.remove('show');
-        document.body.style.overflow = '';
-        zoom = 1;
-        offsetX = 0;
-        offsetY = 0;
-      }
-
-      function zoomIn() {
-        zoom += 0.25;
-        updateTransform();
-      }
-
-      function zoomOut() {
-        zoom = Math.max(1, zoom - 0.25);
-        offsetX = 0;
-        offsetY = 0;
-        updateTransform();
-      }
-
-      function updateTransform() {
-        const modalContent = document.getElementById('modalContent');
-        const percentage = document.getElementById('zoomPercentage');
-        modalContent.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px)) scale(${zoom})`;
-        percentage.textContent = Math.round(zoom * 100) + '%';
-      }
-
-      document.getElementById('modalContent').addEventListener('mousedown', (e) => {
-        if (zoom > 1) {
-          isDragging = true;
-          startX = e.clientX - offsetX;
-          startY = e.clientY - offsetY;
-        }
-      });
-
-      document.addEventListener('mousemove', (e) => {
-        if (isDragging) {
-          offsetX = e.clientX - startX;
-          offsetY = e.clientY - startY;
-          updateTransform();
-        }
-      });
-
-      document.addEventListener('mouseup', () => {
-        isDragging = false;
-      });
-
-      document.getElementById('imageModal').addEventListener('click', (e) => {
-        if (e.target === document.getElementById('imageModal')) {
-          closeModal();
-        }
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          closeModal();
-        }
-      });
-
-      renderWorks();
-    </script>
+    <script src="assets/js/works.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
   </body>
 </html>

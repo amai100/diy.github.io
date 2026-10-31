@@ -1,588 +1,613 @@
 <!doctype html>
-<!-- saved from url=(0109)file:///C:/Users/13232/Desktop/personal-website-maintenance-main/personal-website-maintenance-main/index.html -->
 <html lang="zh-CN">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>DIY机器人工房 · 把想法做成会动的机器</title>
+    <meta
+      name="description"
+      content="DIY机器人工房是一个专注于机器人设计、制作和编程的创意空间。分享机器人项目、教程与开源资料，一起把想法做成会动的机器。"
+    />
+    <meta name="author" content="DIY机器人工房" />
+    <meta name="theme-color" content="#060a12" />
+    <link rel="canonical" href="http://diyjqrgf.bbroot.com/" />
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>DIY机器人工房</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:site_name" content="DIY机器人工房" />
+    <meta property="og:title" content="DIY机器人工房 · 把想法做成会动的机器" />
+    <meta
+      property="og:description"
+      content="专注于机器人设计、制作和编程的创意空间。项目、教程与开源资料持续更新。"
+    />
+    <meta property="og:url" content="http://diyjqrgf.bbroot.com/" />
+    <meta property="og:image" content="http://diyjqrgf.bbroot.com/assets/img/og-cover.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DIY机器人工房 · 把想法做成会动的机器" />
+    <meta
+      name="twitter:description"
+      content="专注于机器人设计、制作和编程的创意空间。项目、教程与开源资料持续更新。"
+    />
+    <meta name="twitter:image" content="http://diyjqrgf.bbroot.com/assets/img/og-cover.jpg" />
 
-    <link rel="icon" href="index_files/logo.png" />
-    <link rel="stylesheet" href="index_files/bootstrap.min.css" />
-    <link rel="stylesheet" href="index_files/index.css" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("diy-theme");
+          var query = new URLSearchParams(location.search).get("theme");
+          if (query === "light" || query === "dark") saved = query;
+          if (saved === "light") document.documentElement.dataset.theme = "light";
+        } catch (error) {}
+        document.documentElement.classList.add("js");
+      })();
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "DIY机器人工房",
+        "alternateName": "DIY Robot Workshop",
+        "url": "http://diyjqrgf.bbroot.com/",
+        "logo": "http://diyjqrgf.bbroot.com/assets/img/logo-512.png",
+        "description": "专注于机器人设计、制作和编程的创意空间。",
+        "email": "1323280131@qq.com",
+        "sameAs": [
+          "https://space.bilibili.com/3494354003954471",
+          "https://www.xiaohongshu.com/user/profile/64fe318a000000000200c68e",
+          "https://diyjqr.blog.csdn.net/"
+        ]
+      }
+    </script>
   </head>
 
   <body>
-    <!-- 导航栏 -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div id="nav-container" class="container">
-        <div class="row">
-          <div
-            class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0"
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header class="site-header" id="siteHeader">
+      <div class="scroll-progress" aria-hidden="true"></div>
+      <div class="nav-shell">
+        <a class="brand" href="index.html" aria-label="DIY机器人工房 首页">
+          <img src="assets/img/logo-96.png" alt="" width="42" height="42" />
+          <span class="brand-text">
+            <strong>DIY机器人工房</strong>
+            <small>ROBOT WORKSHOP</small>
+          </span>
+        </a>
+
+        <nav class="nav-links" id="siteNav" aria-label="主导航">
+          <a href="index.html" aria-current="page">首页</a>
+          <a href="works.html">作品集</a>
+          <a href="#resources">资料</a>
+          <a href="about.html">关于</a>
+          <a
+            class="nav-external"
+            href="https://space.bilibili.com/3494354003954471"
+            target="_blank"
+            rel="noopener noreferrer"
+            >B 站主页 ↗</a
           >
-            <div class="navbar-header">
-              <button
-                type="button"
-                class="navbar-toggle collapsed"
-                data-toggle="collapse"
-                data-target="#navbar"
-                aria-expanded="false"
-                aria-controls="navbar"
-              >
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="index.html">
-                <img
-                  style="height: 40px"
-                  src="index_files/logo.png"
-                  alt="img"
-                />
-              </a>
-            </div>
-            <div
-              id="navbar"
-              class="navbar-collapse collapse"
-              aria-expanded="false"
-              style="height: 0.666667px"
-            >
-              <ul class="nav navbar-nav">
-                <li>
-                  <a href="https://diyjqr.blog.csdn.net/" target="_blank"
-                    >资料下载</a
-                  >
-                </li>
-                <li><a href="works.html">作品集</a></li>
-                <li>
-                  <a href="https://m.tb.cn/h.6nXwFZj6hrlCBPG" target="_blank"
-                    >淘宝链接</a
-                  >
-                </li>
-                <li><a href="about.html">关于我们</a></li>
-              </ul>
-            </div>
-          </div>
+        </nav>
+
+        <div class="nav-actions">
+          <a
+            class="btn-ghost nav-cta"
+            href="https://space.bilibili.com/3494354003954471"
+            target="_blank"
+            rel="noopener noreferrer"
+            >B 站主页 <span aria-hidden="true">↗</span></a
+          >
+          <button class="theme-toggle" type="button" aria-label="切换主题" title="切换主题">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z" />
+            </svg>
+          </button>
+          <button
+            class="menu-toggle"
+            type="button"
+            aria-label="打开菜单"
+            aria-expanded="false"
+            aria-controls="siteNav"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
-    </nav>
-    <div style="height: 50px"></div>
+    </header>
 
-    <!-- 平台简介 -->
-    <div class="container">
-      <div class="row">
-        <h1>平台简介</h1>
-      </div>
+    <main id="main">
+      <!-- ============ HERO ============ -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="dot"></span>ROBOTICS · MAKER · OPEN SOURCE</p>
+            <h1 id="hero-title"><span class="h1-line">把想法，</span><span class="h1-line">做成<span class="grad">会动的机器</span>。</span></h1>
+            <p class="hero-lead">
+              DIY机器人工房是一个专注于机器人设计、制作和编程的创意空间。从结构、电路到代码，一步步把脑海里的东西，变成能跑、能动的实物。
+            </p>
 
-      <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 img-bilibili">
-          <img src="index_files/logo.png" alt="img " style="height: 200px" />
-        </div>
-        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-          <div class="panel panel-default">
-            <div class="panel-body text-p">
-              <p>DIY机器人工房是一个专注于机器人设计、制作和编程的创意空间。</p>
-              <p>
-                在这里，每一个爱好者们可以发挥自己的想象力和创造力，从零开始构建个性化的机器人。
-              </p>
-              <p>更多教程将持续发布，关注我们的Bilibili账号，了解最新动态</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <hr />
-
-    <!-- 自媒体矩阵 -->
-    <div class="container">
-      <div class="row">
-        <h1>自媒体矩阵</h1>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-          <div class="thumbnail">
-            <img
-                style="height: 200px"
-                src="index_files/bilibili.jpg"
-                alt="img "
-              />
-            <div class="caption">
-              <h3>哔哩哔哩</h3>
-              <p>平时活跃在这里</p>
-              <p>
-                <a
-                  href="https://space.bilibili.com/3494354003954471"
-                  target="_blank "
-                  class="btn btn-primary"
-                  role="button "
-                  >跳转到个人主页</a
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-          <div class="thumbnail">
-            <img
-              style="height: 200px"
-              src="index_files/xiaohongshu.jpg"
-              alt="img "
-            />
-            <div class="caption">
-              <h3>小红书</h3>
-              <p>视频同步更新到这里</p>
-              <p>
-                <a
-                  href="https://www.xiaohongshu.com/user/profile/64fe318a000000000200c68e?xsec_token=YBxhUL3Rul4kzRVvC1XwwgEJYyMZCvKHCRGl1vxlz_7vQ=&amp;xsec_source=app_share&amp;xhsshare=CopyLink&amp;appuid=64fe318a000000000200c68e&amp;apptime=1746260555&amp;share_id=82bf0480284246869bedfe54b6c16643"
-                  target="_blank "
-                  class="btn btn-primary"
-                  role="button "
-                  >跳转到个人主页</a
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-          <div class="thumbnail">
-            <img
-              style="height: 200px"
-              src="index_files/douyin.jpg"
-              alt="img "
-            />
-            <div class="caption">
-              <h3>抖音</h3>
-              <p>视频同步更新到这里</p>
-              <p>
-                <a
-                  href="https://v.douyin.com/uVyAlr0IoGc/"
-                  target="_blank "
-                  class="btn btn-primary"
-                  role="button "
-                  >跳转到个人主页</a
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-          <div class="thumbnail">
-            <img
-              style="height: 200px"
-              src="index_files/csdn.jpg"
-              alt="img "
-            />
-            <div class="caption">
-              <h3>CSDN</h3>
-              <p>学习笔记分享在这里</p>
-              <p>
-                <a
-                  href="https://diyjqr.blog.csdn.net/"
-                  target="_blank "
-                  class="btn btn-primary"
-                  role="button "
-                  >跳转到个人主页</a
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-          <div class="thumbnail">
-            <img
-              style="height: 200px"
-              src="index_files/shequn.png"
-              alt="img "
-            />
-            <div class="caption">
-              <h3>社群</h3>
-              <p>目前有3个QQ群和2个微信群，手机扫码即可进入</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12"></div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 img-bilibili">
-          <img src="index_files/taobao.png" alt="img " />
-        </div>
-        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-          <div class="panel panel-default">
-            <div class="panel-body text-p">
-              <p>分享个人复刻各种机器人的经历，打包成资料包,助力于你更好学习</p>
-              <p>价格最低至0.99</p>
-              <p>更多复刻经历将持续发布，关注我们的淘宝账号，了解最新动态</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row text-go">
-        <a
-          href="https://m.tb.cn/h.6nXwFZj6hrlCBPG"
-          class="btn btn-primary"
-          role="button "
-          >去资料包获取页面 &gt;&gt;&gt;</a
-        >
-      </div>
-    </div>
-
-    <hr />
-
-    <!-- 资料下载 -->
-    <div class="container">
-      <div class="row">
-        <h1>资料下载</h1>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-3 col-md-2 col-sm-1 col-xs-0"></div>
-        <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
-          <div class="panel panel-default">
-            <div class="panel-body text-p">
-              <p>视频中出现的资料，可以在CSDN查看</p>
-              <p>更新学习笔记持续更新中......</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-2 col-sm-1 col-xs-0"></div>
-      </div>
-      <div class="row text-go">
-        <a
-          href="https://diyjqr.blog.csdn.net/"
-          class="btn btn-primary"
-          role="button "
-          >去DIY机器人工房CSDN页面 &gt;&gt;&gt;</a
-        >
-      </div>
-    </div>
-
-    <hr />
-
-    <!-- 建议与合作 -->
-    <div class="container">
-      <div class="row">
-        <h1>建议与合作</h1>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-3 col-md-2 col-sm-1 col-xs-0"></div>
-        <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
-          <div class="panel panel-default">
-            <div class="panel-body text-p">
-              <p>需要对我们提建议可以联系邮箱：1323280131@qq.com</p>
-              <p>商务合作请联系邮箱：1323280131@qq.com</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-2 col-sm-1 col-xs-0"></div>
-      </div>
-    </div>
-
-    <hr />
-
-    <!-- 关于我们 -->
-    <div class="container">
-      <div class="row">
-        <h1>未来计划</h1>
-      </div>
-      <div class="row">
-        <div class="col-lg-3 col-md-2 col-sm-1 col-xs-0"></div>
-        <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
-          <div class="panel panel-default">
-            <div class="panel-body text-p">
-              <p>持续分享更多好玩的项目，把社区做大......</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-2 col-sm-1 col-xs-0"></div>
-      </div>
-    </div>
-
-    <hr />
-
-    <!-- 底栏 -->
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-0"></div>
-          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-            <p>
-              <span class="glyphicon glyphicon-facetime-video"></span>
-              Bilibili：
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="works.html">看看作品 <span class="arrow" aria-hidden="true">→</span></a>
               <a
+                class="btn btn-secondary"
                 href="https://space.bilibili.com/3494354003954471"
-                target="_blank "
-                class="footer-text-a"
-                >DIY机器人工房</a
+                target="_blank"
+                rel="noopener noreferrer"
+                >去 B 站看看 <span class="arrow" aria-hidden="true">↗</span></a
               >
+            </div>
+
+            <ul class="hero-stats" aria-label="工房概况">
+              <li><strong>05</strong><span>内容平台</span></li>
+              <li><strong>03</strong><span>QQ 群</span></li>
+              <li><strong>02</strong><span>微信群</span></li>
+              <li class="hero-status"><span class="status-dot" aria-hidden="true"></span>持续更新中</li>
+            </ul>
+          </div>
+
+          <div class="hero-visual">
+            <div class="stage" data-spotlight>
+              <span class="stage-ring" aria-hidden="true"></span>
+              <span class="stage-ring stage-ring--dashed" aria-hidden="true"></span>
+              <span class="stage-ring stage-ring--inner" aria-hidden="true"></span>
+              <span class="stage-label stage-label--top">UNIT / 01</span>
+              <span class="stage-label stage-label--bottom">BUILD · CODE · SHARE</span>
+              <span class="corner corner-tl" aria-hidden="true"></span>
+              <span class="corner corner-tr" aria-hidden="true"></span>
+              <span class="corner corner-bl" aria-hidden="true"></span>
+              <span class="corner corner-br" aria-hidden="true"></span>
+
+              <div class="stage-logo">
+                <img
+                  src="assets/img/logo-640.webp"
+                  alt="DIY机器人工房 LOGO：蓝色机器人实验室"
+                  width="640"
+                  height="640"
+                  fetchpriority="high"
+                />
+              </div>
+
+              <span class="stage-chip chip-a">STM32</span>
+              <span class="stage-chip chip-b">UWB</span>
+              <span class="stage-chip chip-c">4G + GPS</span>
+              <span class="stage-chip chip-d">K230</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+          <div class="marquee-group">
+            <span>机械结构</span><span>嵌入式控制</span><span>传感器与定位</span>
+            <span>机器视觉</span><span>开源分享</span><span>视频记录</span>
+          </div>
+          <div class="marquee-group">
+            <span>机械结构</span><span>嵌入式控制</span><span>传感器与定位</span>
+            <span>机器视觉</span><span>开源分享</span><span>视频记录</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ ABOUT ============ -->
+      <section class="section" id="about">
+        <div class="container">
+          <header class="section-head reveal">
+            <span class="section-index">01 / ABOUT</span>
+            <div>
+              <p class="section-kicker">A WORKSHOP FOR MAKERS</p>
+              <h2 class="section-title">关于工房 <span class="thin">/ 从零开始</span></h2>
+            </div>
+            <p class="section-note">
+              不做旁观者。每一个项目，都尽量走完从建模、打印、接线、写代码到调试的完整流程。
             </p>
-            <p>
-              <span class="glyphicon glyphicon-shopping-cart"></span>
-              官方淘宝店：
+          </header>
+
+          <div class="about-grid">
+            <p class="about-statement reveal">
+              不做旁观者，<br />直接<em>上手造</em>。
+            </p>
+            <div class="about-copy reveal" data-reveal-delay="80">
+              <p>
+                在这里，爱好者可以发挥自己的想象力和创造力，从零开始构建个性化的机器人。工房记录的不是成品清单，而是一次次把想法变成实物的过程。
+              </p>
+              <p>
+                机械、电子、代码、视频，能自己做的就自己动手。踩过的坑整理成教程，做过的项目拍成视频，让后来的人少走一点弯路。
+              </p>
+            </div>
+          </div>
+
+          <div class="capability-grid">
+            <article class="capability reveal" data-reveal-delay="0">
+              <span class="cap-index">01 / MECH</span>
+              <svg class="cap-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1" />
+              </svg>
+              <h3>机械与结构</h3>
+              <p>从建模、3D 打印到装配调试，把想法做成能承力、能运动的实体。</p>
+            </article>
+
+            <article class="capability reveal" data-reveal-delay="70">
+              <span class="cap-index">02 / EMBED</span>
+              <svg class="cap-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="7" y="7" width="10" height="10" rx="2" />
+                <path d="M9 2.5V5M15 2.5V5M9 19v2.5M15 19v2.5M2.5 9H5M2.5 15H5M19 9h2.5M19 15h2.5" />
+              </svg>
+              <h3>嵌入式控制</h3>
+              <p>STM32、电机、舵机与传感器，写代码让硬件按预期动起来。</p>
+            </article>
+
+            <article class="capability reveal" data-reveal-delay="140">
+              <span class="cap-index">03 / SENSE</span>
+              <svg class="cap-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" />
+                <circle cx="12" cy="12" r="4.5" />
+                <circle cx="12" cy="12" r="1" fill="currentColor" />
+                <path d="m12 12 6.5-6.5" />
+              </svg>
+              <h3>传感与定位</h3>
+              <p>UWB、4G + GPS、OpenMV / K230，让机器知道自己在哪、看到了什么。</p>
+            </article>
+
+            <article class="capability reveal" data-reveal-delay="210">
+              <span class="cap-index">04 / SHARE</span>
+              <svg class="cap-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="3" />
+                <path d="m10 9 5 3-5 3z" />
+              </svg>
+              <h3>记录与分享</h3>
+              <p>B 站视频、CSDN 笔记、资料包，把踩过的坑整理成能复用的经验。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CHANNELS ============ -->
+      <section class="section" id="channels">
+        <div class="container">
+          <header class="section-head reveal">
+            <span class="section-index">02 / CHANNELS</span>
+            <div>
+              <p class="section-kicker">FIND ME ONLINE</p>
+              <h2 class="section-title">自媒体矩阵 <span class="thin">/ 在这些地方更新</span></h2>
+            </div>
+            <p class="section-note">视频、笔记、资料和社群入口。选一个你常用的平台，我们一起玩。</p>
+          </header>
+
+          <div class="matrix-grid">
+            <a
+              class="platform-card reveal"
+              style="--brand: #fb7299"
+              href="https://space.bilibili.com/3494354003954471"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-spotlight
+            >
+              <div class="platform-top">
+                <span class="platform-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="7" width="18" height="13" rx="3" />
+                    <path d="m7.5 3 3 4M16.5 3l-3 4M8 12v3M16 12v3" />
+                  </svg>
+                </span>
+                <span class="platform-tag">MAIN / VIDEO</span>
+              </div>
+              <h3>哔哩哔哩</h3>
+              <p>平时活跃在这里。项目视频、制作过程和踩坑记录，都先发在 B 站。</p>
+              <span class="platform-link">跳转到个人主页 <span class="ext" aria-hidden="true">↗</span></span>
+            </a>
+
+            <a
+              class="platform-card reveal"
+              style="--brand: #ff2442"
+              href="https://www.xiaohongshu.com/user/profile/64fe318a000000000200c68e?xsec_token=YBxhUL3Rul4kzRVvC1XwwgEJYyMZCvKHCRGl1vxlz_7vQ=&amp;xsec_source=app_share&amp;xhsshare=CopyLink&amp;appuid=64fe318a000000000200c68e&amp;apptime=1746260555&amp;share_id=82bf0480284246869bedfe54b6c16643"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-spotlight
+            >
+              <div class="platform-top">
+                <span class="platform-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="4" y="3" width="16" height="18" rx="4" />
+                    <path d="M8 8h8M8 12h5" />
+                    <path d="M12 20s-4-2.4-4-5a2.2 2.2 0 0 1 4-1.2A2.2 2.2 0 0 1 16 15c0 2.6-4 5-4 5Z" />
+                  </svg>
+                </span>
+                <span class="platform-tag">VIDEO</span>
+              </div>
+              <h3>小红书</h3>
+              <p>视频同步更新到这里，偶尔也发一些制作片段和项目碎片。</p>
+              <span class="platform-link">跳转到个人主页 <span class="ext" aria-hidden="true">↗</span></span>
+            </a>
+
+            <a
+              class="platform-card reveal"
+              style="--brand: #0ea5e9"
+              href="https://v.douyin.com/uVyAlr0IoGc/"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-spotlight
+            >
+              <div class="platform-top">
+                <span class="platform-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M9 18V5l10-2v13" />
+                    <circle cx="6" cy="18" r="3" />
+                    <circle cx="16" cy="16" r="3" />
+                  </svg>
+                </span>
+                <span class="platform-tag">SHORT VIDEO</span>
+              </div>
+              <h3>抖音</h3>
+              <p>视频同步更新到这里，用更短的方式记录机器动起来的瞬间。</p>
+              <span class="platform-link">跳转到个人主页 <span class="ext" aria-hidden="true">↗</span></span>
+            </a>
+
+            <a
+              class="platform-card reveal"
+              style="--brand: #fc5531"
+              href="https://diyjqr.blog.csdn.net/"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-spotlight
+            >
+              <div class="platform-top">
+                <span class="platform-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14" />
+                  </svg>
+                </span>
+                <span class="platform-tag">NOTES / DOCS</span>
+              </div>
+              <h3>CSDN</h3>
+              <p>学习笔记分享在这里。教程、源码和踩坑记录，适合慢慢看、反复查。</p>
+              <span class="platform-link">去博客看笔记 <span class="ext" aria-hidden="true">↗</span></span>
+            </a>
+
+            <div class="platform-card reveal" style="--brand: #7dffcf" data-spotlight>
+              <div class="platform-top">
+                <span class="platform-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="9" cy="8" r="3" />
+                    <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+                    <path d="M16 5a3 3 0 0 1 0 6M17.5 14c2 .6 3.5 2.6 3.5 5" />
+                  </svg>
+                </span>
+                <span class="platform-tag">COMMUNITY</span>
+              </div>
+              <h3>社群</h3>
+              <p>目前有 3 个 QQ 群和 2 个微信群，手机扫码即可进入，一起交流、一起填坑。</p>
+              <button class="platform-link" type="button" data-open-dialog="qrDialog">
+                扫码进群 <span class="ext" aria-hidden="true">＋</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FEATURED WORK ============ -->
+      <section class="section" id="work">
+        <div class="container">
+          <header class="section-head reveal">
+            <span class="section-index">03 / WORK</span>
+            <div>
+              <p class="section-kicker">SELECTED PROJECT</p>
+              <h2 class="section-title">精选作品 <span class="thin">/ 先看一台能动的</span></h2>
+            </div>
+            <p class="section-note">从一张草图到一台能连续发球的机器，过程比结果更有意思。</p>
+          </header>
+
+          <a class="feature-work reveal" href="works.html#pingpong" data-spotlight>
+            <div class="feature-visual">
+              <img
+                src="assets/img/works/pingpong-blueprint.svg"
+                alt="乒乓球发球机结构示意图：供球漏斗、摩擦发射轮、舵机云台与触摸屏控制"
+                width="800"
+                height="600"
+                loading="lazy"
+              />
+              <span class="fig-caption">FIG. 01 / 结构示意</span>
+            </div>
+            <div class="feature-body">
+              <span class="feature-kicker">FEATURED PROJECT / 001</span>
+              <h3>乒乓球发球机</h3>
+              <p>
+                支持上旋、下旋、直球三种球路，可调节发球速度与频率。采用 STM32 控制，配合舵机与直流电机实现精准发球，并用触摸屏完成全部操作。
+              </p>
+              <ul class="tag-list" aria-label="项目标签">
+                <li>STM32</li>
+                <li>舵机云台</li>
+                <li>触摸屏</li>
+                <li>3D 打印</li>
+              </ul>
+              <dl class="spec-list">
+                <div><dt>主控</dt><dd>STM32</dd></div>
+                <div><dt>球路</dt><dd>上旋 / 下旋 / 直球</dd></div>
+                <div><dt>操作</dt><dd>触摸屏</dd></div>
+                <div><dt>状态</dt><dd>持续迭代</dd></div>
+              </dl>
+              <span class="text-link">查看作品档案 <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- ============ RESOURCES ============ -->
+      <section class="section" id="resources">
+        <div class="container">
+          <header class="section-head reveal">
+            <span class="section-index">04 / RESOURCES</span>
+            <div>
+              <p class="section-kicker">DOCS &amp; MATERIALS</p>
+              <h2 class="section-title">资料与商店 <span class="thin">/ 少走一点弯路</span></h2>
+            </div>
+            <p class="section-note">视频里出现的资料、源码和笔记，都整理在这两个地方。</p>
+          </header>
+
+          <div class="resource-grid">
+            <article class="resource-card reveal" data-spotlight>
+              <span class="kicker">DOCS / CSDN</span>
+              <h3>视频里的资料，都在这里</h3>
+              <p>
+                教程、源码、踩坑记录持续更新中。想自己动手复刻，可以先从博客里的笔记开始。
+              </p>
               <a
+                class="btn btn-primary"
+                href="https://diyjqr.blog.csdn.net/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >去 CSDN 看资料 <span class="arrow" aria-hidden="true">→</span></a
+              >
+              <span class="resource-deco" aria-hidden="true">DOCS</span>
+            </article>
+
+            <article class="resource-card resource-card--orange reveal" data-spotlight data-reveal-delay="90">
+              <span class="kicker">SHOP / TAOBAO</span>
+              <h3>复刻资料包</h3>
+              <p>
+                分享个人复刻各种机器人的经历，打包成资料包，助力于你更好学习。更多复刻经历会持续发布。
+              </p>
+              <div class="price"><strong>¥0.99</strong> 起</div>
+              <a
+                class="btn btn-secondary"
                 href="https://m.tb.cn/h.6nXwFZj6hrlCBPG"
-                target="_blank "
-                class="footer-text-a"
-                >DIY机器人工房</a
+                target="_blank"
+                rel="noopener noreferrer"
+                >去淘宝看看 <span class="arrow" aria-hidden="true">↗</span></a
               >
-            </p>
-            <p>
-              <span class="glyphicon glyphicon-globe"></span> 官方网站：
-              <a
-                href="https://diyjqrgf.com/"
-                target="_blank "
-                class="footer-text-a"
-                >diyjqrgf.com</a
+              <span class="resource-deco" aria-hidden="true">SHOP</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CONTACT ============ -->
+      <section class="section" id="contact">
+        <div class="container">
+          <div class="contact-panel reveal" data-spotlight>
+            <div class="contact-main">
+              <p class="eyebrow"><span class="dot"></span>GET IN TOUCH</p>
+              <h2>有想法？<br />一起把它造出来。</h2>
+              <p>
+                无论是项目建议、商务合作，还是单纯想聊聊机器人，都欢迎发邮件。
+              </p>
+              <div class="email-row">
+                <a href="mailto:1323280131@qq.com">1323280131@qq.com</a>
+                <button class="copy-btn" type="button" data-copy="1323280131@qq.com">复制邮箱</button>
+              </div>
+            </div>
+
+            <div class="contact-side">
+              <p class="kicker">ELSEWHERE</p>
+              <a href="https://space.bilibili.com/3494354003954471" target="_blank" rel="noopener noreferrer"
+                >Bilibili <span aria-hidden="true">↗</span></a
               >
-            </p>
+              <a href="https://diyjqr.blog.csdn.net/" target="_blank" rel="noopener noreferrer"
+                >CSDN <span aria-hidden="true">↗</span></a
+              >
+              <a href="https://m.tb.cn/h.6nXwFZj6hrlCBPG" target="_blank" rel="noopener noreferrer"
+                >淘宝资料包 <span aria-hidden="true">↗</span></a
+              >
+              <p class="contact-note">
+                <strong>FUTURE PLAN</strong>
+                持续分享更多好玩的项目，把社区做大。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a class="brand" href="index.html" aria-label="DIY机器人工房 首页">
+              <img src="assets/img/logo-96.png" alt="" width="42" height="42" />
+              <span class="brand-text">
+                <strong>DIY机器人工房</strong>
+                <small>ROBOT WORKSHOP</small>
+              </span>
+            </a>
+            <p>一个专注于机器人设计、制作和编程的创意空间。把想法做成会动的机器。</p>
+          </div>
+
+          <div class="footer-col">
+            <h4>Sitemap</h4>
+            <a href="index.html">首页</a>
+            <a href="works.html">作品集</a>
+            <a href="#resources">资料</a>
+            <a href="about.html">关于</a>
+          </div>
+
+          <div class="footer-col">
+            <h4>Channels</h4>
+            <a href="https://space.bilibili.com/3494354003954471" target="_blank" rel="noopener noreferrer">哔哩哔哩</a>
+            <a href="https://diyjqr.blog.csdn.net/" target="_blank" rel="noopener noreferrer">CSDN</a>
+            <a href="https://m.tb.cn/h.6nXwFZj6hrlCBPG" target="_blank" rel="noopener noreferrer">淘宝资料包</a>
+          </div>
+
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <a href="mailto:1323280131@qq.com">1323280131@qq.com</a>
+            <address>建议 / 合作 / 交流<br />都欢迎来信</address>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>© <span data-year>2026</span> DIY机器人工房 · Built with care.</span>
+          <div class="legal">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">ICP 备案：xxxxxxxxxx</a>
+            <a
+              href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32011402011336"
+              target="_blank"
+              rel="noopener noreferrer"
+              ><img src="assets/img/beian.png" alt="" width="14" height="14" />公安备案：xxxxxxxx</a
+            >
           </div>
         </div>
       </div>
     </footer>
 
-    <!-- 备案 -->
+    <button class="to-top" type="button" data-to-top aria-label="回到顶部">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 19V5M5 12l7-7 7 7" />
+      </svg>
+    </button>
 
-    <div style="text-align: center">
-      <div style="display: inline-block; margin: 5px">
-        <a
-          style="color: black"
-          href="https://beian.miit.gov.cn/"
-          target="_blank "
-          >xxxxxxxxxx</a
-        >
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- 社群二维码 -->
+    <dialog class="dialog qr-dialog" id="qrDialog" aria-labelledby="qrTitle">
+      <div class="qr-panel">
+        <button class="dialog-close" type="button" data-close-dialog aria-label="关闭">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
+        <p class="kicker">COMMUNITY</p>
+        <h2 id="qrTitle">扫码进群</h2>
+        <p>目前有 3 个 QQ 群和 2 个微信群，手机扫码即可进入。</p>
+        <img src="assets/img/community-qr.png" alt="DIY机器人工房社群二维码" width="500" height="500" loading="lazy" />
+        <p class="qr-hint">二维码如过期，欢迎发邮件获取最新入口。</p>
       </div>
-      <div style="display: inline-block; margin: 5px; color: black">
-        <img src="index_files/beian.png" alt="img " />
-        <a
-          style="color: black"
-          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32011402011336"
-          target="_blank "
-          >xxxxxxxx</a
-        >
-      </div>
-    </div>
+    </dialog>
 
-    <!-- 光效层 -->
-    <div class="cursor-glow"></div>
-
-    <script src="index_files/jquery.min.js.下载"></script>
-    <script src="index_files/bootstrap.min.js.下载"></script>
-    <script>
-      // 节流函数优化性能
-      function throttle(func, limit) {
-        let inThrottle;
-        let lastArgs;
-        let lastContext;
-        return function () {
-          const args = arguments;
-          const context = this;
-          lastArgs = args;
-          lastContext = context;
-          if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => {
-              inThrottle = false;
-              if (lastArgs) {
-                func.apply(lastContext, lastArgs);
-              }
-            }, limit);
-          }
-        };
-      }
-
-      // 鼠标跟随光效（使用节流优化性能）
-      let cursorGlow = document.querySelector(".cursor-glow");
-      let glowVisible = false;
-
-      $(document).on(
-        "mousemove",
-        throttle(function (e) {
-          requestAnimationFrame(function () {
-            cursorGlow.style.left = e.clientX + "px";
-            cursorGlow.style.top = e.clientY + "px";
-
-            // 渐显效果
-            if (!glowVisible) {
-              cursorGlow.style.opacity = "1";
-              glowVisible = true;
-            }
-          });
-        }, 16),
-      ); // ~60fps
-
-      // 鼠标离开窗口时隐藏光效
-      $(document).on("mouseleave", function () {
-        cursorGlow.style.opacity = "0";
-        glowVisible = false;
-      });
-
-      // 点击涟漪效果（修复定位问题和重复触发）
-      let isMobile =
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent,
-        ) || window.innerWidth < 768;
-      let touchHandled = false;
-
-      function createRipple(element, event) {
-        const $ripple = $('<div class="ripple-active"></div>');
-        const rect = element.getBoundingClientRect();
-        let x, y;
-
-        // 支持触摸和鼠标事件
-        if (
-          event.type === "touchstart" ||
-          (event.originalEvent && event.originalEvent.touches)
-        ) {
-          const touch = event.originalEvent
-            ? event.originalEvent.touches[0] ||
-              event.originalEvent.changedTouches[0]
-            : event;
-          x = touch.clientX;
-          y = touch.clientY;
-        } else {
-          x = event.clientX;
-          y = event.clientY;
-        }
-
-        const size = Math.max(rect.width, rect.height) * 1.5;
-        const left = x - rect.left - size / 2;
-        const top = y - rect.top - size / 2;
-
-        $ripple.css({
-          width: size + "px",
-          height: size + "px",
-          left: left + "px",
-          top: top + "px",
-        });
-
-        element.appendChild($ripple[0]);
-
-        // 动画结束后移除
-        setTimeout(() => {
-          $ripple.remove();
-        }, 600);
-      }
-
-      // 移动端使用touchstart, PC端使用click
-      if (isMobile) {
-        $(document).on(
-          "touchstart",
-          "a:not(.btn), button:not(.btn), .thumbnail, .panel",
-          function (e) {
-            if (touchHandled) return;
-            touchHandled = true;
-            createRipple(this, e);
-            setTimeout(() => {
-              touchHandled = false;
-            }, 100);
-          },
-        );
-
-        // 移动端按钮单独处理（按钮需要能跳转）
-        $(document).on("touchstart", ".btn", function (e) {
-          createRipple(this, e);
-        });
-      } else {
-        $(document).on(
-          "click",
-          "a, button, .btn, .thumbnail, .panel",
-          function (e) {
-            createRipple(this, e);
-          },
-        );
-      }
-
-      // 卡片增强悬停效果（使用单独的timeout）
-      $(".thumbnail, .panel").each(function () {
-        let hoverTimeout;
-        $(this)
-          .on("mouseenter touchstart", function () {
-            const $this = $(this);
-            clearTimeout(hoverTimeout);
-            hoverTimeout = setTimeout(() => {
-              $this.addClass("enhanced-hover");
-            }, 50);
-          })
-          .on("mouseleave touchend", function () {
-            const $this = $(this);
-            clearTimeout(hoverTimeout);
-            hoverTimeout = setTimeout(() => {
-              $this.removeClass("enhanced-hover");
-            }, 50);
-          });
-      });
-
-      // 导航栏点击效果
-      $(".navbar-nav li a").on("click touchstart", function (e) {
-        if (!$(this).closest(".dropdown").length) {
-          $(this).addClass("nav-clicked");
-          setTimeout(() => {
-            $(this).removeClass("nav-clicked");
-          }, 300);
-        }
-      });
-
-      // 移动端禁用复杂光效以提升性能（添加resize监听）
-      function checkMobileAndApply() {
-        const currentIsMobile =
-          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-            navigator.userAgent,
-          ) || window.innerWidth < 768;
-
-        if (currentIsMobile) {
-          // 移动端隐藏鼠标光效
-          if (cursorGlow) {
-            cursorGlow.style.display = "none";
-          }
-
-          // 移动端触摸时添加简单的高亮效果
-          $(".thumbnail, .panel").each(function () {
-            $(this).off("mouseenter mouseleave");
-
-            $(this)
-              .on("touchstart", function () {
-                $(this).addClass("mobile-touch-active");
-              })
-              .on("touchend", function () {
-                $(this).removeClass("mobile-touch-active");
-              });
-          });
-        } else {
-          // 桌面端恢复光效
-          if (cursorGlow) {
-            cursorGlow.style.display = "block";
-          }
-        }
-      }
-
-      // 初始化时检测
-      checkMobileAndApply();
-
-      // 窗口大小改变时重新检测
-      $(window).on(
-        "resize orientationchange",
-        debounce(checkMobileAndApply, 250),
-      );
-
-      // 防抖函数
-      function debounce(func, wait) {
-        let timeout;
-        return function () {
-          const context = this;
-          const args = arguments;
-          clearTimeout(timeout);
-          timeout = setTimeout(() => func.apply(context, args), wait);
-        };
-      }
-    </script>
+    <script src="assets/js/main.js" defer></script>
   </body>
 </html>

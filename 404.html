@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>页面走丢了 · DIY机器人工房</title>
+    <meta name="description" content="这个页面没有找到。回到 DIY机器人工房首页，或者去看看作品集。" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#060a12" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("diy-theme");
+          if (saved === "light") document.documentElement.dataset.theme = "light";
+        } catch (error) {}
+        document.documentElement.classList.add("js");
+      })();
+    </script>
+    <style>
+      .lost {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: calc(var(--header-h) + 40px) 0 60px;
+        text-align: center;
+      }
+      .lost-code {
+        font-family: var(--font-mono);
+        font-size: clamp(6rem, 22vw, 14rem);
+        font-weight: 700;
+        line-height: 0.9;
+        letter-spacing: -0.06em;
+        color: transparent;
+        -webkit-text-stroke: 1px var(--line-strong);
+      }
+      .lost h1 {
+        margin-top: 8px;
+        font-size: clamp(1.6rem, 4vw, 2.4rem);
+        font-weight: 800;
+      }
+      .lost p {
+        margin: 14px auto 0;
+        max-width: 46ch;
+        color: var(--muted);
+        font-size: 14.5px;
+        line-height: 1.9;
+      }
+      .lost-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 30px;
+      }
+      .lost-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 11px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="nav-shell">
+        <a class="brand" href="index.html" aria-label="DIY机器人工房 首页">
+          <img src="assets/img/logo-96.png" alt="" width="42" height="42" />
+          <span class="brand-text">
+            <strong>DIY机器人工房</strong>
+            <small>ROBOT WORKSHOP</small>
+          </span>
+        </a>
+        <div class="nav-actions" style="margin-left: auto">
+          <a class="btn-ghost" href="index.html">回到首页</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="lost">
+      <div class="container">
+        <span class="lost-tag"><span class="status-dot" aria-hidden="true"></span>ERROR / 404</span>
+        <p class="lost-code" aria-hidden="true">404</p>
+        <h1>这个零件没找到。</h1>
+        <p>页面可能被移动、重命名，或者链接本身少了一颗螺丝。可以回首页，或者去作品集逛逛。</p>
+        <div class="lost-actions">
+          <a class="btn btn-primary" href="index.html">回到首页 <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn-secondary" href="works.html">看看作品 <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

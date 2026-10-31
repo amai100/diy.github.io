@@ -1,0 +1,25 @@
+{
+  "name": "DIY机器人工房",
+  "short_name": "DIY工房",
+  "description": "专注于机器人设计、制作和编程的创意空间。",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#060a12",
+  "theme_color": "#060a12",
+  "icons": [
+    {
+      "src": "assets/img/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/img/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

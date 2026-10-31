@@ -1,0 +1,11 @@
+# Local preview artifacts
+.preview/
+tools/profiles/
+tools/chrome-profile/
+tools/*.png
+tools/*.jpg
+
+# Dependencies / OS noise
+node_modules/
+.DS_Store
+Thumbs.db
