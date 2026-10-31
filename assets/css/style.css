@@ -1042,21 +1042,6 @@ svg {
   line-height: 1.9;
 }
 
-.about-copy p::before {
-  content: "";
-  display: inline-block;
-  width: 18px;
-  height: 1px;
-  margin-right: 10px;
-  vertical-align: middle;
-  background: var(--line-strong);
-}
-
-.about-copy p:first-child::before {
-  width: 26px;
-  background: var(--accent);
-}
-
 .capability-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
